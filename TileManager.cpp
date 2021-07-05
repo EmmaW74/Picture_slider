@@ -94,7 +94,6 @@ void TileManager::move_tile(Direction move) {
 		int temp_blank = blank_position;
 		int temp_pic = blank_position - game_defaults->get_no_across();
 		swap_tiles(&tile_list.at(temp_blank), &tile_list.at(temp_pic));
-		
 	}
 	
 	else if (move == Direction::UP && blank_position < (game_defaults->get_no_across()* (game_defaults->get_no_down()-1))) {
