@@ -1,4 +1,5 @@
 #include "gameController.h"
+#include <iostream>
 GameController::GameController() {
 	game_defaults = std::make_shared<Defaults>();
 	game_window = std::make_shared<GameWindow>(game_defaults);
@@ -51,24 +52,40 @@ void GameController::onEvent(SDL_Event &e) {
 			case SDLK_UP:
 
 				game_tiles->move_tile(Direction::UP);
+				if (game_tiles->check_solved()) {
+					gameWon();
+				}
 				break;
 
 			case SDLK_DOWN:
 				game_tiles->move_tile(Direction::DOWN);
+				if (game_tiles->check_solved()) {
+					gameWon();
+				}
 				break;
 
 			case SDLK_LEFT:
 				game_tiles->move_tile(Direction::LEFT);
+				if (game_tiles->check_solved()) {
+					gameWon();
+				}
 				break;
 
 			case SDLK_RIGHT:
 				game_tiles->move_tile(Direction::RIGHT);
+				if (game_tiles->check_solved()) {
+					gameWon();
+				}
 				break;
 			}
 			
 		}
-	
+		
 
+}
+
+void GameController::gameWon() {
+	std::cout << "GAME WON!!!" << std::endl;
 }
 
 GameController::~GameController() {

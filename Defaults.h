@@ -13,8 +13,8 @@ private:
 	const int SCREEN_WIDTH{ 600 };
 	const int SCREEN_HEIGHT{ 640 };
 	const int banner_height{ 40 };
-	const int tile_no_across{ 3 }; // this could be chosen at startup
-	const int tile_no_down{ 3 }; // this could be chosen at startup
+	const int tile_no_across{ 4 }; // this could be chosen at startup
+	const int tile_no_down{ 4 }; // this could be chosen at startup
 
 
 	std::string game_font{ "Font/Gilsanub.ttf" }; //"Font/Gilsanub.ttf"

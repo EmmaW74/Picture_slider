@@ -42,10 +42,10 @@ void TileManager::create_tile_texture() {
 void TileManager::set_rect(SDL_Rect* rect, int pos) {
 	//calculate rect position based on pos and update rect x,y,w,h
 
-	rect->w = game_defaults->get_screen_width() / game_defaults->get_no_across();
+	rect->w = (game_defaults->get_screen_width() / game_defaults->get_no_across());
 	rect->h = (game_defaults->get_screen_height() - game_defaults->get_banner_height()) / game_defaults->get_no_down();
 	rect->x = ((pos) % game_defaults->get_no_across()) * rect->w;
-	rect->y = ((pos) / game_defaults->get_no_across()) * rect->h;
+	rect->y = (((pos) / game_defaults->get_no_across()) * rect->h) + game_defaults->get_banner_height();
 	
 }
 
@@ -85,7 +85,7 @@ void TileManager::swap_tiles(Tile* blank, Tile* pic) {
 	pic->update_blank();
 	blank_position = blank->get_current_pos();
 
-	check_solved();
+	//check_solved();
 }
 
 void TileManager::move_tile(Direction move) {
@@ -122,9 +122,8 @@ void TileManager::move_tile(Direction move) {
 void TileManager::update_blank_pos() {
 	//Records current position of blank tile
 	auto it = tile_list.begin();
-	if (it!=tile_list.end() && it->get_blank()==true) {
+	if (it!=tile_list.end() && it->get_blank()) {
 		blank_position = it->get_current_pos();
-	
 		it++;
 	}
 }
@@ -164,6 +163,7 @@ void TileManager::draw_tiles() {
 	
 }
 bool TileManager::check_solved() {
+	//Checks if each tile is currently in the target position
 	auto it = tile_list.begin();
 	
 	while (it != tile_list.end()) {
@@ -173,6 +173,6 @@ bool TileManager::check_solved() {
 		}
 		it++;
 	}
-	std::cout << "Not solved" << std::endl;
+	std::cout << "Solved" << std::endl;
 	return true;
 }

@@ -16,7 +16,8 @@ public:
 	GameController();
 	void startGame();
 	void runGame();
-	void endGame();
+	//void endGame();
+	void gameWon();
 	void quitGame();
 	void onEvent(SDL_Event &e);
 	~GameController();
