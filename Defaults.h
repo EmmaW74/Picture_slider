@@ -18,17 +18,33 @@ private:
 
 
 	std::string game_font{ "Font/Gilsanub.ttf" }; //"Font/Gilsanub.ttf"
+	std::string intro_font{ "Font/SEGALOGOFONT400.ttf" };
 	const int h1_size{ 70 }; //70
 	const int h2_size{ 40 }; //40
 	const int h3_size{ 20 }; //20
 
-	const uint8_t main_colour_red{ 0xfc }; // 0xfc
-	const uint8_t main_colour_blue{ 0x12 }; // 0x12 
-	const uint8_t main_colour_green{ 0xe5 }; // 0xe5
+	//Intro background colour 331832
+	
+	const uint8_t intro_background_colour_red{ 0x33 };  
+	const uint8_t intro_background_colour_blue{ 0x18 };  
+	const uint8_t intro_background_colour_green{ 0x32 };  
 
-	const uint8_t sec_colour_red{ 0xff }; //0xff
-	const uint8_t sec_colour_blue{ 0xff }; // 0xff
-	const uint8_t sec_colour_green{ 0xff }; //0xff
+	//main text colour 9FC2CC
+	const uint8_t main_colour_red{ 0x9F };  
+	const uint8_t main_colour_blue{ 0xC2 };  
+	const uint8_t main_colour_green{ 0xCC };  
+
+	//secondary colour - not in use yet 694D75
+	const uint8_t sec_colour_red{ 0x69 };  
+	const uint8_t sec_colour_blue{ 0x4D };  
+	const uint8_t sec_colour_green{ 0x75 };  
+
+	//Text for intro page
+
+	const std::string game_name{ "SLIDE PIX" };
+	const std::string start_game_text{ "To start press ENTER" };
+	const std::string choose_pic{ "Choose a picture then press Enter" };
+
 
 public:
 	Defaults();
@@ -39,6 +55,19 @@ public:
 	int get_no_across() const;
 	int get_no_down() const;
 	int get_banner_height() const;
+	std::string get_game_font() const;
+	std::string get_intro_font() const;
+	std::string get_game_name() const;
+	std::string get_game_intro() const;
+
+	uint8_t get_main_colour_red() const;
+	uint8_t get_main_colour_blue() const;
+	uint8_t get_main_colour_green() const;
+
+	uint8_t get_intro_background_colour_red() const;
+	uint8_t get_intro_background_colour_blue() const;
+	uint8_t get_intro_background_colour_green() const;
+
 };
 
 #endif

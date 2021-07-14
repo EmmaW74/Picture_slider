@@ -4,8 +4,17 @@
 
 int main(int argc, char* args[]) {
 	GameController newGame;
-	newGame.runGame();
-	SDL_Delay(2000);
-
+	newGame.startGame();
 	return 0;
 }
+
+//TO ADD
+//intro
+//Choose a pic
+//upload own pic
+//countdown option
+//Timer and top scores
+//Enter name if top score
+//default green and blue possibly wrong way round (intro background)
+// https://docs.microsoft.com/en-us/windows/win32/shell/common-file-dialog
+ 

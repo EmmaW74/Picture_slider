@@ -2,11 +2,13 @@
 #define GAMECONTROLLER_H
 #include "gameWindow.h"
 #include "TileManager.h"
+#include "Intro.h"
 #include <memory>
 
 class GameController
 {
 private:
+	std::shared_ptr<Intro> game_intro;
 	std::shared_ptr<GameWindow> game_window;
 	std::shared_ptr<Defaults> game_defaults;
 	std::shared_ptr<TileManager> game_tiles;
@@ -16,6 +18,7 @@ public:
 	GameController();
 	void startGame();
 	void runGame();
+	void update_running();
 	//void endGame();
 	void gameWon();
 	void quitGame();

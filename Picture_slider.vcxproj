@@ -97,7 +97,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Github\Picture_slider\Dependencies\vclibSDL\lib\x86;C:\Github\Picture_slider\Dependencies\vclibSDL\SDL2_image-2.0.5\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -116,7 +116,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Github\Picture_slider\Dependencies\vclibSDL\lib\x86;C:\Github\Picture_slider\Dependencies\vclibSDL\SDL2_image-2.0.5\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -152,6 +152,8 @@
     <ClCompile Include="Defaults.cpp" />
     <ClCompile Include="gameController.cpp" />
     <ClCompile Include="gameWindow.cpp" />
+    <ClCompile Include="Intro.cpp" />
+    <ClCompile Include="IRenderableText.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileManager.cpp" />
@@ -160,6 +162,8 @@
     <ClInclude Include="Defaults.h" />
     <ClInclude Include="gameController.h" />
     <ClInclude Include="gameWindow.h" />
+    <ClInclude Include="Intro.h" />
+    <ClInclude Include="IRenderableText.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileManager.h" />
   </ItemGroup>
