@@ -39,7 +39,7 @@ GameWindow::GameWindow(std::shared_ptr<Defaults> game_Defaults) :
 }
 
 	SDL_Renderer* GameWindow::get_myRenderer() const {
-		return myRenderer;
+		return myRenderer; 
 	}
 
 

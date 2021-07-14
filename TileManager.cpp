@@ -10,7 +10,6 @@
 TileManager::TileManager(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> game_window):
 	game_defaults{ game_defaults }, game_window{ game_window }{
 	create_tile_texture();
-	//set_blank_pos();
 	
 }
 void TileManager::create_tile_texture() {
@@ -23,9 +22,9 @@ void TileManager::create_tile_texture() {
 	else {
 		//Color key image
 		SDL_SetColorKey(tempSurface, SDL_TRUE, SDL_MapRGB(tempSurface->format, 0xFF, 0xFF, 0xFF));
+		//SDL_SetColorKey(tempSurface, SDL_TRUE, SDL_MapRGB(tempSurface->format, game_defaults->get_intro_background_colour_red(), game_defaults->get_intro_background_colour_green(), game_defaults->get_intro_background_colour_blue()));
 
 		//Create texture from surface
-		
 		tile_texture = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), tempSurface) ;
 		//SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), tempSurface);
 		if (tile_texture == NULL)
@@ -41,18 +40,15 @@ void TileManager::create_tile_texture() {
 
 void TileManager::set_rect(SDL_Rect* rect, int pos) {
 	//calculate rect position based on pos and update rect x,y,w,h
-
 	rect->w = (game_defaults->get_screen_width() / game_defaults->get_no_across());
 	rect->h = (game_defaults->get_screen_height() - game_defaults->get_banner_height()) / game_defaults->get_no_down();
 	rect->x = ((pos) % game_defaults->get_no_across()) * rect->w;
 	rect->y = (((pos) / game_defaults->get_no_across()) * rect->h) + game_defaults->get_banner_height();
-	
 }
 
 void TileManager::create_tile_list() {
 	//Fill deque with tile objects
 	int no_of_tiles = (game_defaults->get_no_across() * game_defaults->get_no_down());
-	
 	for (int x = 0; x < no_of_tiles; x++) {
 		SDL_Rect* tempSourceRect = new SDL_Rect{ 0,0,0 };
 		SDL_Rect* tempDestRect = new SDL_Rect{ 0,0,0 };
@@ -62,7 +58,6 @@ void TileManager::create_tile_list() {
 		tile_list.push_back(*tempTile); 
 	}
 	tile_list.at(no_of_tiles - 1).update_blank();
-	
 }
 
 void TileManager::swap_tiles(Tile* blank, Tile* pic) {
@@ -85,7 +80,6 @@ void TileManager::swap_tiles(Tile* blank, Tile* pic) {
 	pic->update_blank();
 	blank_position = blank->get_current_pos();
 
-	//check_solved();
 }
 
 void TileManager::move_tile(Direction move) {
@@ -142,7 +136,6 @@ void TileManager::shuffle_tile_list() {
 		}
 		pos++;
 	}
-	//update_blank_pos(); WHY IS IT SKIPPING THIS??
 }
 
 void TileManager::draw_tiles() {
@@ -150,8 +143,9 @@ void TileManager::draw_tiles() {
 	auto it = tile_list.begin();
 	while (it != tile_list.end()) {
 		if (it->get_blank()) {
-			SDL_SetRenderDrawColor(game_window->get_myRenderer(), 0x00, 0x00, 0x00, 0x00);
+			SDL_SetRenderDrawColor(game_window->get_myRenderer(), game_defaults->get_intro_background_colour_red(), game_defaults->get_intro_background_colour_blue(), game_defaults->get_intro_background_colour_green(),255);
 			SDL_RenderFillRect(game_window->get_myRenderer(), it->get_dest_rect());
+			
 		}
 		else {
 			SDL_RenderCopy(game_window->get_myRenderer(), tile_texture, it->get_source_rect(), it->get_dest_rect());
