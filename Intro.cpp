@@ -1,16 +1,22 @@
 #include "Intro.h"
 #include "SDL.h"
 #include "SDL_ttf.h"
+#include "SDL_render.h"
+//#include "TileManager.h"
 #include <sstream>
+#include <iostream>
 
 
-Intro::Intro(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> window):
-	game_defaults{ game_defaults }, game_window{ window } {}
+Intro::Intro(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> window) :
+	game_defaults{ game_defaults }, game_window{ window } {
+	
+}
 
 void Intro::run_intro() {
 	fill_background();
 	render_intro_text();
 }
+
 
 void Intro::fill_background() {
 	//Fill renderer with background colour
@@ -74,6 +80,7 @@ void Intro::render_intro_text() {
 }
 
 void Intro::render_rect(SDL_Rect rect, SDL_Surface* surface, SDL_Texture* texture, int x, int y) {
+	//Fills rect with background colour then renders texture at x,y
 	rect.x = x;
 	rect.y = y;
 	rect.w = surface->w;
@@ -88,6 +95,86 @@ void Intro::render_rect(SDL_Rect rect, SDL_Surface* surface, SDL_Texture* textur
 	SDL_RenderCopy(game_window->get_myRenderer(), texture, NULL, &rect);
 }
 
+SDL_Texture* Intro::upload_pic(const char* pic_file) {
+	SDL_Surface* tempSurface = IMG_Load(pic_file);
+	if (tempSurface == NULL)
+	{
+		std::cout << "upload_pic: Unable to load image" << SDL_GetError() << std::endl;
+	}
+	else {
+
+		SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), tempSurface);
+		if (tempTexture == NULL)
+		{
+			std::cout << "RenderableImage: Unable to create texture" << std::endl;
+		}
+		else
+		{
+			SDL_FreeSurface(tempSurface);
+			return tempTexture;
+		}
+	}
+}
+
+	void Intro::display_pics() {
+		//Displays 4 pics on screen ready to choose
+		fill_background();
+		SDL_Rect temp{};
+		temp.w = (game_defaults->get_screen_width() / 10) * 2;
+		temp.h = (game_defaults->get_screen_width() / 10) * 2;
+		SDL_Texture* tempTexture;
+
+		int pic = 0;
+		for (int x = 2; x < 8; x+=4) {
+			for (int y = 2; y < 8; y+=4) {
+				tempTexture = upload_pic(game_defaults->get_gamePicture(pic));
+				temp.x = ((game_defaults->get_screen_width() / 10) * x);
+				temp.y = ((game_defaults->get_screen_width() / 10) * y);
+				SDL_RenderCopy(game_window->get_myRenderer(), tempTexture, NULL, &temp);
+				pic++;
+				game_window->publishTexture();
+			}
+		}
+	}
+
+	void Intro::update_selection(Direction direction){
+		//Use arrows to change pic selection and return current position
+		if (direction == Direction::LEFT){
+			if (game_defaults->get_current_pic() == 0) {
+				game_defaults->update_current_pic(3);
+			}
+			else {
+				int temp = game_defaults->get_current_pic();
+				temp--;
+				game_defaults->update_current_pic(temp);
+			}
+			//Redraw tiles with selection moved
+		}
+		else if (direction == Direction::RIGHT) {
+			if (game_defaults->get_current_pic() == 3) {
+				game_defaults->update_current_pic(0);
+			}
+			else {
+				int temp = game_defaults->get_current_pic();
+				temp++;
+				game_defaults->update_current_pic(temp);
+			}
+			
+	
+			//Redraw tiles with selection moved
+		}
+		//need to store current selection rect and update as the selection moves
+		//also how to deal with up down left right???
+
+		//UP  
+		
+
+	//display rect around first pic
+		//On arrow press move rect up, down, left or right and update current selection value
+		//On Enter, pass current selection to game controller/tile manager? to use that for the game
+		//
+		game_window->publishTexture();
+	}
 /*
 - render background
 - Display 4 pics on screen

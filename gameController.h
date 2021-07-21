@@ -13,10 +13,12 @@ private:
 	std::shared_ptr<Defaults> game_defaults;
 	std::shared_ptr<TileManager> game_tiles;
 	bool running;
+	//int current_pic_selection;
 
 public:
 	GameController();
 	void startGame();
+	void choosePic();
 	void runGame();
 	void update_running();
 	//void endGame();

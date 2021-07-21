@@ -12,9 +12,10 @@ void GameController::update_running() {
 	running = !running;
 }
 void GameController::startGame() {
+	bool started = false;
 	game_intro->run_intro();
 	SDL_Event e;
-	while (!running) {
+	while (!started) {
 		if (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT)
 				//User requests quit
@@ -24,7 +25,37 @@ void GameController::startGame() {
 			else if (e.type == SDL_KEYDOWN) {
 
 				if (e.key.keysym.sym == SDLK_RETURN) {
-					update_running();
+					started = true;
+					SDL_Delay(3000);
+					choosePic();
+					//runGame(); //send int for chosen pic
+				}
+			}
+		}
+	}
+}
+
+void GameController::choosePic() {
+	bool picked = false;
+	game_intro->display_pics();
+	SDL_Event e;
+	while (!picked) {
+		if (SDL_PollEvent(&e) != 0) {
+			if (e.type == SDL_QUIT)
+				//User requests quit
+			{
+				quitGame();
+			}
+			else if (e.type == SDL_KEYDOWN) {
+
+				if (e.key.keysym.sym == SDLK_LEFT) {
+					game_intro->update_selection(Direction::LEFT);
+
+				} else if (e.key.keysym.sym == SDLK_RIGHT) {
+					game_intro->update_selection(Direction::RIGHT);
+				}
+				else if (e.key.keysym.sym == SDLK_RETURN) {
+					picked = true;
 					runGame();
 				}
 			}
@@ -35,6 +66,7 @@ void GameController::startGame() {
 void GameController::runGame() {
 	//running = true;
 	//game_tiles->draw_tiles();
+
 	game_tiles->create_tile_list();
 	game_tiles->draw_tiles();
 	SDL_Delay(2000);

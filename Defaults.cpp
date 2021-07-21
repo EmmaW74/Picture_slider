@@ -34,9 +34,9 @@ uint8_t Defaults::get_main_colour_green() const {
 	return main_colour_green;
 }
 //std::string Defaults::get_game_picture() const {
-const char* Defaults::get_game_picture() const {
-	return gamePicture;
-}
+//const char* Defaults::get_game_picture() const {
+//	return gamePicture.at(0);
+//}
 
 int Defaults::get_no_across() const {
 	return tile_no_across;
@@ -44,6 +44,13 @@ int Defaults::get_no_across() const {
 
 int Defaults::get_no_down() const {
 	return tile_no_down;
+}
+
+const char* Defaults::get_gamePicture(int x) const {
+	if (x < gamePicture.size()) {
+		return gamePicture.at(x);
+	}
+	else return gamePicture.at(0);
 }
 
 int Defaults::get_banner_height() const {
@@ -58,4 +65,12 @@ uint8_t Defaults::get_intro_background_colour_blue() const {
 }
 uint8_t Defaults::get_intro_background_colour_green() const {
 	return intro_background_colour_green;
+}
+
+void Defaults::update_current_pic(int new_choice) {
+	current_pic = new_choice;
+}
+
+int Defaults::get_current_pic() const {
+	return current_pic;
 }

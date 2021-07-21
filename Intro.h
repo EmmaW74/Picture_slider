@@ -4,6 +4,7 @@
 #include "Defaults.h"
 #include "IRenderableText.h"
 #include "gameWindow.h"
+#include "TileManager.h"
 #include <string>
 
 
@@ -12,16 +13,22 @@ class Intro
 private:
 	std::shared_ptr<Defaults> game_defaults;
 	std::shared_ptr<GameWindow> game_window;
+	SDL_Rect current_selection;
+	
 
 public:
 	Intro(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> window);
 	void run_intro();
+	int choose_pic();
 	void fill_background();
 	void render_intro_text();
 	void render_grid();
 	void renderText(SDL_Surface* surfaceMessage, int y);
-
+	void update_selection(Direction direction);
 	void render_rect(SDL_Rect rect, SDL_Surface* surface, SDL_Texture* texture, int x, int y);
+	void display_pics();
+	SDL_Texture* upload_pic(const char* pic_file);
+	
 };
 
 #endif
