@@ -13,7 +13,7 @@ class Intro
 private:
 	std::shared_ptr<Defaults> game_defaults;
 	std::shared_ptr<GameWindow> game_window;
-	SDL_Rect current_selection;
+	//SDL_Rect current_selection;
 	
 
 public:
@@ -26,6 +26,7 @@ public:
 	void renderText(SDL_Surface* surfaceMessage, int y);
 	void update_selection(Direction direction);
 	void render_rect(SDL_Rect rect, SDL_Surface* surface, SDL_Texture* texture, int x, int y);
+	void highlight_pic(int pos);
 	void display_pics();
 	SDL_Texture* upload_pic(const char* pic_file);
 	

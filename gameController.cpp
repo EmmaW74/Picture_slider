@@ -3,7 +3,7 @@
 GameController::GameController() {
 	game_defaults = std::make_shared<Defaults>();
 	game_window = std::make_shared<GameWindow>(game_defaults);
-	game_tiles = std::make_shared<TileManager>(game_defaults, game_window);
+	//game_tiles = std::make_shared<TileManager>(game_defaults, game_window);
 	game_intro = std::make_shared<Intro>(game_defaults,game_window);
 	running = false;
 }
@@ -26,9 +26,8 @@ void GameController::startGame() {
 
 				if (e.key.keysym.sym == SDLK_RETURN) {
 					started = true;
-					SDL_Delay(3000);
 					choosePic();
-					//runGame(); //send int for chosen pic
+					
 				}
 			}
 		}
@@ -38,6 +37,7 @@ void GameController::startGame() {
 void GameController::choosePic() {
 	bool picked = false;
 	game_intro->display_pics();
+	game_intro->highlight_pic(game_defaults->get_current_pic());
 	SDL_Event e;
 	while (!picked) {
 		if (SDL_PollEvent(&e) != 0) {
@@ -64,7 +64,9 @@ void GameController::choosePic() {
 }
 
 void GameController::runGame() {
-	//running = true;
+	running = true;
+	game_tiles = std::make_shared<TileManager>(game_defaults, game_window);
+
 	//game_tiles->draw_tiles();
 
 	game_tiles->create_tile_list();
