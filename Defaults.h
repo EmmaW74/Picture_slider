@@ -10,7 +10,7 @@ class Defaults
 {
 private:
 	//std::string gamePicture{"Images/rose.jpg"};
-	std::vector<const char*> gamePicture{ "Images/rose.jpg","Images/mixture.jpg","Images/butterfly.jpg","Images/chain.jpg" };
+	std::vector<const char*> gamePicture{ "Images/rose.jpg","Images/butterfly.jpg","Images/mixture.jpg","Images/chain.jpg" };
 	int current_pic = 0;
 	const int SCREEN_WIDTH{ 600 };
 	const int SCREEN_HEIGHT{ 640 };

@@ -14,19 +14,15 @@ TileManager::TileManager(std::shared_ptr<Defaults> game_defaults, std::shared_pt
 }
 void TileManager::create_tile_texture() {
 	//loads image and creates a texture of the image
-	SDL_Surface* tempSurface = IMG_Load(game_defaults->get_gamePicture(0));
+	SDL_Surface* tempSurface = IMG_Load(game_defaults->get_gamePicture(game_defaults->get_current_pic()));
 	if (tempSurface == NULL)
 	{
 		std::cout << "RenderableImage: Unable to load image" << SDL_GetError() << std::endl;
 	}
 	else {
-		//Color key image
-		//SDL_SetColorKey(tempSurface, SDL_TRUE, SDL_MapRGB(tempSurface->format, 0xFF, 0xFF, 0xFF));
-		//SDL_SetColorKey(tempSurface, SDL_TRUE, SDL_MapRGB(tempSurface->format, game_defaults->get_intro_background_colour_red(), game_defaults->get_intro_background_colour_green(), game_defaults->get_intro_background_colour_blue()));
-
-		//Create texture from surface
+		
 		tile_texture = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), tempSurface) ;
-		//SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), tempSurface);
+		
 		if (tile_texture == NULL)
 		{
 			std::cout << "RenderableImage: Unable to create texture" << std::endl;

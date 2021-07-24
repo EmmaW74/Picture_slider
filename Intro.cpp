@@ -2,21 +2,19 @@
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include "SDL_render.h"
-//#include "TileManager.h"
 #include <sstream>
 #include <iostream>
 
 
 Intro::Intro(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> window) :
 	game_defaults{ game_defaults }, game_window{ window } {
-	
 }
 
 void Intro::run_intro() {
+	//calls methods to display intro screen
 	fill_background();
 	render_intro_text();
 }
-
 
 void Intro::fill_background() {
 	//Fill renderer with background colour
@@ -24,11 +22,10 @@ void Intro::fill_background() {
 	SDL_SetRenderDrawColor(game_window->get_myRenderer(), game_defaults->get_intro_background_colour_red(), game_defaults->get_intro_background_colour_blue(), game_defaults->get_intro_background_colour_green(), 0xff);
 	SDL_RenderFillRect(game_window->get_myRenderer(), temp);
 	delete temp;
-	game_window->publishTexture();
 }
 
 void Intro::render_intro_text() {
-	//Add title and intro text to screen
+	//Add title and intro text to renderer and publish to screen
 	std::istringstream iss{ game_defaults->get_game_name() };
 	std::string line1{};
 	std::string line2{};
@@ -80,7 +77,7 @@ void Intro::render_intro_text() {
 }
 
 void Intro::render_rect(SDL_Rect rect, SDL_Surface* surface, SDL_Texture* texture, int x, int y) {
-	//Fills rect with background colour then renders texture at x,y
+	//Fills rect with background colour then renders texture at x,y - used for sliding text
 	rect.x = x;
 	rect.y = y;
 	rect.w = surface->w;
@@ -96,6 +93,7 @@ void Intro::render_rect(SDL_Rect rect, SDL_Surface* surface, SDL_Texture* textur
 }
 
 SDL_Texture* Intro::upload_pic(const char* pic_file) {
+	//Uploads picture file and returns as a texture
 	SDL_Surface* tempSurface = IMG_Load(pic_file);
 	if (tempSurface == NULL)
 	{
@@ -125,64 +123,72 @@ SDL_Texture* Intro::upload_pic(const char* pic_file) {
 		SDL_Texture* tempTexture;
 
 		int pic = 0;
-		for (int x = 2; x < 8; x+=4) {
-			for (int y = 2; y < 8; y+=4) {
+		for (int y = 2; y < 8; y += 4) {
+			for (int x = 2; x < 8; x+=4) {
 				tempTexture = upload_pic(game_defaults->get_gamePicture(pic));
 				temp.x = ((game_defaults->get_screen_width() / 10) * x);
 				temp.y = ((game_defaults->get_screen_width() / 10) * y);
 				SDL_RenderCopy(game_window->get_myRenderer(), tempTexture, NULL, &temp);
 				pic++;
-				game_window->publishTexture();
 			}
 		}
+		game_window->publishTexture();
+	}
+	void Intro::highlight_pic(int pos) {
+		//Draws a rect on screen to highlight the selected picture
+		fill_background();
+		display_pics();
+
+		int default_x = (game_defaults->get_screen_width() / 10) * 2;
+		int default_y = (game_defaults->get_screen_width() / 10) * 2;
+		int width_adj = 2;
+		int pos_adj = 1;
+		for (int x = 0; x < 6; x++) {
+			
+			SDL_Rect outlineRect{};
+			outlineRect.w = default_x + width_adj;
+			outlineRect.h = default_y + width_adj;
+			outlineRect.x = (default_x + ((pos % 2)*(2*default_x))) - pos_adj;
+			outlineRect.y = (default_x + ((pos / 2) * (2 * default_x))) - pos_adj;
+
+			SDL_SetRenderDrawColor(game_window->get_myRenderer(), game_defaults->get_main_colour_red(), game_defaults->get_main_colour_green(), game_defaults->get_main_colour_blue(), 0xff);
+			SDL_RenderDrawRect(game_window->get_myRenderer(), &outlineRect);
+			width_adj += 2;
+			pos_adj += 1;
+		}
+		game_window->publishTexture();
 	}
 
 	void Intro::update_selection(Direction direction){
-		//Use arrows to change pic selection and return current position
+		//Update default current picture and move highlight on screen based on direction argument
+		
 		if (direction == Direction::LEFT){
 			if (game_defaults->get_current_pic() == 0) {
 				game_defaults->update_current_pic(3);
+				highlight_pic(3);
 			}
 			else {
 				int temp = game_defaults->get_current_pic();
 				temp--;
 				game_defaults->update_current_pic(temp);
+				highlight_pic(temp);
 			}
-			//Redraw tiles with selection moved
 		}
 		else if (direction == Direction::RIGHT) {
+		
 			if (game_defaults->get_current_pic() == 3) {
 				game_defaults->update_current_pic(0);
+				highlight_pic(0);
 			}
 			else {
 				int temp = game_defaults->get_current_pic();
 				temp++;
 				game_defaults->update_current_pic(temp);
+				highlight_pic(temp);
 			}
-			
-	
-			//Redraw tiles with selection moved
 		}
-		//need to store current selection rect and update as the selection moves
-		//also how to deal with up down left right???
-
-		//UP  
-		
-
-	//display rect around first pic
-		//On arrow press move rect up, down, left or right and update current selection value
-		//On Enter, pass current selection to game controller/tile manager? to use that for the game
-		//
-		game_window->publishTexture();
 	}
-/*
-- render background
-- Display 4 pics on screen
-- Rectangle around selected pic
-- Move selection left and right (pic objects with file, surface, texture, selected bool)
-- Press space to select - start game with whichever pic has selection true
 
-*/
 
 
 
