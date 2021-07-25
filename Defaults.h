@@ -15,8 +15,8 @@ private:
 	const int SCREEN_WIDTH{ 600 };
 	const int SCREEN_HEIGHT{ 640 };
 	const int banner_height{ 40 };
-	const int tile_no_across{ 4 }; // this could be chosen at startup
-	const int tile_no_down{ 4 }; // this could be chosen at startup
+	const int tile_no_across{ 6 }; // this could be chosen at startup
+	const int tile_no_down{ 6 }; // this could be chosen at startup
 
 
 	std::string game_font{ "Font/Gilsanub.ttf" }; //"Font/Gilsanub.ttf"
@@ -45,7 +45,7 @@ private:
 
 	const std::string game_name{ "SLIDE PIX" };
 	const std::string start_game_text{ "To start press ENTER" };
-	const std::string choose_pic_text{ "Choose a picture then press ENTER" };
+	const std::string choose_pic_text{ "Choose a picture" };
 
 
 public:
@@ -63,6 +63,7 @@ public:
 	std::string get_intro_font() const;
 	std::string get_game_name() const;
 	std::string get_game_intro() const;
+	std::string get_choose_pic_text() const;
 	
 
 	uint8_t get_main_colour_red() const;

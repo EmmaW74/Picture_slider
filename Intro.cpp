@@ -76,6 +76,39 @@ void Intro::render_intro_text() {
 	TTF_Quit();
 }
 
+void Intro::render_choose_pic_text() {
+	//Add text to renderer and publish to screen
+	
+	//open font and set font colour
+	TTF_Init();
+	TTF_Font* font = TTF_OpenFont(game_defaults->get_intro_font().c_str(), 26);
+	SDL_Color color = { game_defaults->get_main_colour_red(), game_defaults->get_main_colour_green(), game_defaults->get_main_colour_blue() };
+
+	//Add text to screen
+	
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, game_defaults->get_choose_pic_text().c_str(), color);
+	SDL_Texture* textureMessage = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), surfaceMessage);
+	SDL_Rect rect{ };
+	rect.w = surfaceMessage->w;
+	rect.h = surfaceMessage->h;
+	render_rect(rect, surfaceMessage, textureMessage, (game_defaults->get_screen_width() - rect.w) / 2, game_defaults->get_screen_height() / 10);
+	//game_window->publishTexture();
+
+	surfaceMessage = TTF_RenderText_Solid(font, game_defaults->get_game_intro().c_str(), color);
+	textureMessage = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), surfaceMessage);
+	
+	rect.w = surfaceMessage->w;
+	rect.h = surfaceMessage->h;
+	render_rect(rect, surfaceMessage, textureMessage, (game_defaults->get_screen_width()-rect.w) / 2, (game_defaults->get_screen_height() / 10)*8);
+	game_window->publishTexture();
+
+
+
+	//free surface and quit TTF
+	SDL_FreeSurface(surfaceMessage);
+	TTF_Quit();
+}
+
 void Intro::render_rect(SDL_Rect rect, SDL_Surface* surface, SDL_Texture* texture, int x, int y) {
 	//Fills rect with background colour then renders texture at x,y - used for sliding text
 	rect.x = x;
@@ -132,7 +165,8 @@ SDL_Texture* Intro::upload_pic(const char* pic_file) {
 				pic++;
 			}
 		}
-		game_window->publishTexture();
+		render_choose_pic_text();
+		//game_window->publishTexture();
 	}
 	void Intro::highlight_pic(int pos) {
 		//Draws a rect on screen to highlight the selected picture
