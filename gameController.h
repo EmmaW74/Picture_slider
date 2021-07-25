@@ -13,6 +13,7 @@ private:
 	std::shared_ptr<Defaults> game_defaults;
 	std::shared_ptr<TileManager> game_tiles;
 	bool running;
+	bool started;
 	//int current_pic_selection;
 
 public:
@@ -21,7 +22,7 @@ public:
 	void choosePic();
 	void runGame();
 	void update_running();
-	//void endGame();
+	void update_started();
 	void gameWon();
 	void quitGame();
 	void onEvent(SDL_Event &e);
