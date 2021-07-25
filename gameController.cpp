@@ -67,7 +67,7 @@ void GameController::choosePic() {
 }
 
 void GameController::runGame() {
-	//running = true;
+	running = true;
 	game_tiles = std::make_shared<TileManager>(game_defaults, game_window);
 
 	//game_tiles->draw_tiles();

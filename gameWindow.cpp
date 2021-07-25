@@ -43,13 +43,6 @@ GameWindow::GameWindow(std::shared_ptr<Defaults> game_Defaults) :
 	}
 
 
-void GameWindow::drawFrame() {
-	// Draws current state of puzzle
-	
-	//Do something here
-	publishTexture();
-}
-
 void GameWindow::publishTexture() {
 	SDL_RenderPresent(myRenderer);
 }

@@ -13,15 +13,14 @@ class Intro
 private:
 	std::shared_ptr<Defaults> game_defaults;
 	std::shared_ptr<GameWindow> game_window;
-	//SDL_Rect current_selection;
 	
-
 public:
 	Intro(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> window);
 	void run_intro();
 	int choose_pic();
 	void fill_background();
 	void render_intro_text();
+	void render_choose_pic_text();
 	void render_grid();
 	void renderText(SDL_Surface* surfaceMessage, int y);
 	void update_selection(Direction direction);

@@ -74,3 +74,7 @@ void Defaults::update_current_pic(int new_choice) {
 int Defaults::get_current_pic() const {
 	return current_pic;
 }
+
+std::string Defaults::get_choose_pic_text() const {
+	return choose_pic_text;
+}

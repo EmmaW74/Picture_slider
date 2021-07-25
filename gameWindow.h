@@ -19,8 +19,6 @@ private:
 public:
 
 	GameWindow(std::shared_ptr<Defaults> game_defaults);
-	std::shared_ptr<SDL_Texture> upload_image();
-	void drawFrame();
 	void publishTexture();
 	SDL_Renderer* get_myRenderer() const;
 	~GameWindow();
