@@ -3,6 +3,7 @@
 #include "gameWindow.h"
 #include "TileManager.h"
 #include "Intro.h"
+#include "gameOver.h"
 #include <memory>
 
 class GameController
@@ -12,6 +13,7 @@ private:
 	std::shared_ptr<GameWindow> game_window;
 	std::shared_ptr<Defaults> game_defaults;
 	std::shared_ptr<TileManager> game_tiles;
+	std::shared_ptr<gameOver> game_over;
 	bool running;
 	bool started;
 	//int current_pic_selection;
@@ -24,7 +26,7 @@ public:
 	void update_running();
 	void update_started();
 	void gameWon();
-	void quitGame();
+	bool quitGame();
 	void onEvent(SDL_Event &e);
 	~GameController();
 

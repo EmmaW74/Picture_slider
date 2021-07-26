@@ -5,6 +5,7 @@ GameController::GameController() {
 	game_window = std::make_shared<GameWindow>(game_defaults);
 	//game_tiles = std::make_shared<TileManager>(game_defaults, game_window);
 	game_intro = std::make_shared<Intro>(game_defaults,game_window);
+	game_over = std::make_shared<gameOver>(game_defaults, game_window);
 	started = false;
 	running = false;
 }
@@ -21,8 +22,12 @@ void GameController::startGame() {
 			if (e.type == SDL_QUIT)
 				//User requests quit
 			{
-				update_started();
-				quitGame();
+				if (quitGame()) {
+					update_started();
+				}
+				else {
+					game_intro->run_intro();
+				}
 			}
 			else if (e.type == SDL_KEYDOWN) {
 
@@ -46,8 +51,14 @@ void GameController::choosePic() {
 			if (e.type == SDL_QUIT)
 				//User requests quit
 			{
-				picked = true;
-				quitGame();
+				if (quitGame()) {
+					picked = true;
+				}
+				else {
+					game_intro->display_pics();
+					game_intro->highlight_pic(game_defaults->get_current_pic());
+				}
+				
 			}
 			else if (e.type == SDL_KEYDOWN) {
 
@@ -88,9 +99,18 @@ void GameController::runGame() {
 
 }
 
-void GameController::quitGame() {
+bool GameController::quitGame() {
 	//running = false;
-	running = !running;
+	game_over->display_are_you_sure();
+	if (game_over->handle_are_you_sure()) {
+		running = !running;
+		return true;
+	}
+	else {
+		//this needs to return to where you are in the game!!
+		return false;
+	}
+	
 }
 
 
@@ -100,7 +120,10 @@ void GameController::onEvent(SDL_Event &e) {
 		if (e.type == SDL_QUIT)
 			//User requests quit
 		{
-			quitGame();
+			if (!quitGame()) {
+				game_tiles->draw_tiles();
+			}
+			
 		}
 		
 		else if (e.type == SDL_KEYDOWN)

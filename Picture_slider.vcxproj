@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="Defaults.cpp" />
     <ClCompile Include="gameController.cpp" />
+    <ClCompile Include="gameOver.cpp" />
     <ClCompile Include="gameWindow.cpp" />
     <ClCompile Include="Intro.cpp" />
     <ClCompile Include="IRenderableText.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="Defaults.h" />
     <ClInclude Include="gameController.h" />
+    <ClInclude Include="gameOver.h" />
     <ClInclude Include="gameWindow.h" />
     <ClInclude Include="Intro.h" />
     <ClInclude Include="IRenderableText.h" />

@@ -78,3 +78,7 @@ int Defaults::get_current_pic() const {
 std::string Defaults::get_choose_pic_text() const {
 	return choose_pic_text;
 }
+
+std::string Defaults::get_are_you_sure_text() const {
+	return are_you_sure_text;
+}
