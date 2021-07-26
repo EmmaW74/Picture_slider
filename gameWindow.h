@@ -21,6 +21,7 @@ public:
 	GameWindow(std::shared_ptr<Defaults> game_defaults);
 	void publishTexture();
 	SDL_Renderer* get_myRenderer() const;
+	void fill_background();
 	~GameWindow();
 };
 

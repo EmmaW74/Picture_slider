@@ -47,6 +47,13 @@ void GameWindow::publishTexture() {
 	SDL_RenderPresent(myRenderer);
 }
 
+void GameWindow::fill_background() {
+	//Fill renderer with background colour
+	SDL_Rect* temp = new SDL_Rect{ 0,0,gameDefaults->get_screen_width(),gameDefaults->get_screen_height() };
+	SDL_SetRenderDrawColor(get_myRenderer(), gameDefaults->get_intro_background_colour_red(), gameDefaults->get_intro_background_colour_blue(), gameDefaults->get_intro_background_colour_green(), 0xff);
+	SDL_RenderFillRect(get_myRenderer(), temp);
+	delete temp;
+}
 
 GameWindow::~GameWindow() {
 	//Free loaded images

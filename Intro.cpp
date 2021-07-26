@@ -15,7 +15,7 @@ void Intro::run_intro() {
 	fill_background();
 	render_intro_text();
 }
-
+//COULD THIS MOVE TO GAMEWINDOW TO USE IN MULTIPLE PLACES??
 void Intro::fill_background() {
 	//Fill renderer with background colour
 	SDL_Rect* temp = new SDL_Rect{ 0,0,game_defaults->get_screen_width(),game_defaults->get_screen_height()};
