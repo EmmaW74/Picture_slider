@@ -82,3 +82,11 @@ std::string Defaults::get_choose_pic_text() const {
 std::string Defaults::get_are_you_sure_text() const {
 	return are_you_sure_text;
 }
+
+std::string Defaults::get_congrats_text() const {
+	return congrats_text;
+}
+
+std::string Defaults::get_play_again_text() const {
+	return play_again_text;
+}

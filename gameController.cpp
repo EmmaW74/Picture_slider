@@ -100,14 +100,14 @@ void GameController::runGame() {
 }
 
 bool GameController::quitGame() {
-	//running = false;
+	
 	game_over->display_are_you_sure();
 	if (game_over->handle_are_you_sure()) {
 		running = !running;
 		return true;
 	}
 	else {
-		//this needs to return to where you are in the game!!
+		
 		return false;
 	}
 	
@@ -145,7 +145,7 @@ void GameController::onEvent(SDL_Event &e) {
 			case SDLK_DOWN:
 				game_tiles->move_tile(Direction::DOWN);
 				if (game_tiles->check_solved()) {
-					gameWon();
+				gameWon();
 				}
 				break;
 
@@ -174,6 +174,14 @@ void GameController::update_started() {
 
 void GameController::gameWon() {
 	std::cout << "GAME WON!!!" << std::endl;
+	SDL_Delay(2000);
+	game_over->congratulations();
+	if (game_over->handle_play_again()) {
+		choosePic();
+	}
+	else {
+		update_running();
+	}	
 }
 
 GameController::~GameController() {

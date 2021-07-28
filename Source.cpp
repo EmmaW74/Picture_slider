@@ -9,8 +9,8 @@ int main(int argc, char* args[]) {
 }
 
 //TO ADD
-//intro
-//Choose a pic
+
+//Bug on exit with X on congrats window (if choose N it doesn't go back to congrats window)
 //upload own pic
 //countdown option
 //Timer and top scores

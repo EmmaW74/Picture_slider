@@ -47,6 +47,8 @@ private:
 	const std::string start_game_text{ "To start press ENTER" };
 	const std::string choose_pic_text{ "Choose a picture" };
 	const std::string are_you_sure_text{ "Are you sure you want to quit? Y/N" };
+	const std::string congrats_text{ "CONGRATULATIONS" };
+	const std::string play_again_text{ "Play again? Y/N" };
 
 
 public:
@@ -66,6 +68,8 @@ public:
 	std::string get_game_intro() const;
 	std::string get_choose_pic_text() const;
 	std::string get_are_you_sure_text() const;
+	std::string get_congrats_text() const;
+	std::string get_play_again_text() const;
 	
 
 	uint8_t get_main_colour_red() const;
