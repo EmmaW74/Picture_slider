@@ -43,7 +43,7 @@ private:
 
 	//Text for intro pages
 
-	const std::string game_name{ "SLIDE PIX" };
+	const std::string game_name{ " SLIDE PIX" };
 	const std::string start_game_text{ "To start press ENTER" };
 	const std::string choose_pic_text{ "Choose a picture" };
 	const std::string are_you_sure_text{ "Are you sure you want to quit? Y/N" };

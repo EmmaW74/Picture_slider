@@ -38,10 +38,9 @@ GameWindow::GameWindow(std::shared_ptr<Defaults> game_Defaults) :
 	}
 }
 
-	SDL_Renderer* GameWindow::get_myRenderer() const {
+SDL_Renderer* GameWindow::get_myRenderer() const {
 		return myRenderer; 
-	}
-
+}
 
 void GameWindow::publishTexture() {
 	SDL_RenderPresent(myRenderer);
@@ -53,6 +52,23 @@ void GameWindow::fill_background() {
 	SDL_SetRenderDrawColor(get_myRenderer(), gameDefaults->get_intro_background_colour_red(), gameDefaults->get_intro_background_colour_blue(), gameDefaults->get_intro_background_colour_green(), 0xff);
 	SDL_RenderFillRect(get_myRenderer(), temp);
 	delete temp;
+}
+
+void GameWindow::draw_rectangle(SDL_Rect rect, int border_size, std::shared_ptr<Defaults>game_defaults) {
+	
+	int width_adj = 0;
+	int pos_adj = 0;
+	for (int x = 0; x < border_size; x++) {
+		rect.w = rect.w + width_adj;
+		rect.h = rect.h + width_adj;
+		rect.x = rect.x - pos_adj;
+		rect.y = rect.y - pos_adj;
+
+		SDL_SetRenderDrawColor(get_myRenderer(), game_defaults->get_main_colour_red(), game_defaults->get_main_colour_green(), game_defaults->get_main_colour_blue(), 0xff);
+		SDL_RenderDrawRect(get_myRenderer(), &rect);
+		width_adj = 2;
+		pos_adj = 1;
+	}
 }
 
 GameWindow::~GameWindow() {

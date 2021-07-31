@@ -144,6 +144,7 @@ void GameController::onEvent(SDL_Event &e) {
 
 			case SDLK_DOWN:
 				game_tiles->move_tile(Direction::DOWN);
+				//gameWon(); TEST
 				if (game_tiles->check_solved()) {
 				gameWon();
 				}
@@ -174,7 +175,7 @@ void GameController::update_started() {
 
 void GameController::gameWon() {
 	std::cout << "GAME WON!!!" << std::endl;
-	SDL_Delay(2000);
+	SDL_Delay(1000);
 	game_over->congratulations();
 	if (game_over->handle_play_again()) {
 		choosePic();

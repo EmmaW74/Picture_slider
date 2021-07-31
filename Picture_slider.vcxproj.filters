@@ -33,13 +33,13 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IRenderableText.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Intro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gameOver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,13 +59,13 @@
     <ClInclude Include="Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderableText.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Intro.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gameOver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderableText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

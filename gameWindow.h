@@ -22,6 +22,7 @@ public:
 	void publishTexture();
 	SDL_Renderer* get_myRenderer() const;
 	void fill_background();
+	void draw_rectangle(SDL_Rect rect, int border_size, std::shared_ptr<Defaults>game_defaults);
 	~GameWindow();
 };
 

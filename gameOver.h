@@ -16,6 +16,7 @@ public:
 	gameOver(std::shared_ptr<Defaults> defaults, std::shared_ptr<GameWindow> window);
 	void display_are_you_sure() const;
 	bool handle_are_you_sure() const;
+
 	void congratulations() const;
 	bool handle_play_again() const;
 };

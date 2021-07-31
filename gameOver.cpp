@@ -2,35 +2,19 @@
 #include "SDL_ttf.h"
 #include "SDL_render.h"
 #include "SDL.h"
+#include "RenderableText.h"
 
 gameOver::gameOver(std::shared_ptr<Defaults> defaults, std::shared_ptr<GameWindow> window):
 	game_defaults{ defaults }, game_window{ window } {
 
 }
 void gameOver::display_are_you_sure() const {
-	
-	//Add text to renderer and publish to screen
 	game_window->fill_background();
-	//open font and set font colour
-	TTF_Init();
-	TTF_Font* font = TTF_OpenFont(game_defaults->get_game_font().c_str(), 26);
-	SDL_Color color = { game_defaults->get_main_colour_red(), game_defaults->get_main_colour_green(), game_defaults->get_main_colour_blue() };
-
-	//Add text to screen
-
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, game_defaults->get_are_you_sure_text().c_str(), color);
-	SDL_Texture* textureMessage = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), surfaceMessage);
-	SDL_Rect rect{ };
-	rect.w = surfaceMessage->w;
-	rect.h = surfaceMessage->h;
-	rect.x = (game_defaults->get_screen_width() - rect.w) / 2;
-	rect.y = game_defaults->get_screen_height() / 2;
-	SDL_RenderCopy(game_window->get_myRenderer(), textureMessage, NULL, &rect);
+	int y = game_defaults->get_screen_height() / 2;
+	int size = 26;
+	RenderableText are_you_sure{ y,game_defaults->get_game_font(),game_defaults->get_are_you_sure_text(),size,game_defaults };
+	are_you_sure.render_object(game_window->get_myRenderer());
 	game_window->publishTexture();
-
-	//free surface and quit TTF
-	SDL_FreeSurface(surfaceMessage);
-	TTF_Quit();
 }
 
 bool gameOver::handle_are_you_sure() const {
@@ -54,42 +38,21 @@ bool gameOver::handle_are_you_sure() const {
 
 }
 
-
 void gameOver::congratulations() const {
-	//Add text to renderer and publish to screen
+	//Add congrats and play again text to renderer and publish to screen
 	game_window->fill_background();
-	//open font and set font colour
-	TTF_Init();
-	TTF_Font* font = TTF_OpenFont(game_defaults->get_intro_font().c_str(), 30);
-	SDL_Color color = { game_defaults->get_main_colour_red(), game_defaults->get_main_colour_green(), game_defaults->get_main_colour_blue() };
 
-	//Add text to screen
-
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, game_defaults->get_congrats_text().c_str(), color);
-	SDL_Texture* textureMessage = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), surfaceMessage);
-	SDL_Rect rect{ };
-	rect.w = surfaceMessage->w;
-	rect.h = surfaceMessage->h;
-	rect.x = (game_defaults->get_screen_width() - rect.w) / 2;
-	rect.y = game_defaults->get_screen_height() / 2;
-	SDL_RenderCopy(game_window->get_myRenderer(), textureMessage, NULL, &rect);
-	game_window->publishTexture();
+	int y = game_defaults->get_screen_height() / 3;
+	int size = 40;
+	RenderableText congrats{ y,game_defaults->get_intro_font(),game_defaults->get_congrats_text(),size,game_defaults };
+	congrats.render_object(game_window->get_myRenderer());
 	SDL_Delay(1000);
 
-	font = TTF_OpenFont(game_defaults->get_game_font().c_str(), 26);
-	surfaceMessage = TTF_RenderText_Solid(font, game_defaults->get_play_again_text().c_str(), color);
-	textureMessage = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), surfaceMessage);
-
-	rect.w = surfaceMessage->w;
-	rect.h = surfaceMessage->h;
-	rect.x = (game_defaults->get_screen_width() - rect.w) / 2;
-	rect.y = (game_defaults->get_screen_height() / 4)*3;
-	SDL_RenderCopy(game_window->get_myRenderer(), textureMessage, NULL, &rect);
+	y = game_defaults->get_screen_height() / 2;
+	size = 26;
+	RenderableText play_again{ y,game_defaults->get_game_font(),game_defaults->get_play_again_text(),size,game_defaults };
+	play_again.render_object(game_window->get_myRenderer());
 	game_window->publishTexture();
-
-	//free surface and quit TTF
-	SDL_FreeSurface(surfaceMessage);
-	TTF_Quit();
 }
 
 bool gameOver::handle_play_again() const {

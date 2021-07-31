@@ -154,7 +154,7 @@
     <ClCompile Include="gameOver.cpp" />
     <ClCompile Include="gameWindow.cpp" />
     <ClCompile Include="Intro.cpp" />
-    <ClCompile Include="IRenderableText.cpp" />
+    <ClCompile Include="RenderableText.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileManager.cpp" />
@@ -165,7 +165,7 @@
     <ClInclude Include="gameOver.h" />
     <ClInclude Include="gameWindow.h" />
     <ClInclude Include="Intro.h" />
-    <ClInclude Include="IRenderableText.h" />
+    <ClInclude Include="RenderableText.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileManager.h" />
   </ItemGroup>
