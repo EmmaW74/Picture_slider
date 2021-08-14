@@ -11,42 +11,27 @@ class RenderableText
 	// Stores details of a text object and draws on screen
 private:
 
-	std::shared_ptr<Defaults> game_defaults;
+	std::shared_ptr<Defaults> gameDefaults;
 	int x;
 	int y;
-	uint8_t colour_red;
-	uint8_t colour_blue;
-	uint8_t colour_green;
+	uint8_t colourRed;
+	uint8_t colourBlue;
+	uint8_t colourGreen;
 	std::string text;
 	int size;
 	std::string font;
-	SDL_Surface* text_surface;
-	//SDL_Texture* text_texture;
-
-	void fill_rect(SDL_Rect* rectangle, SDL_Renderer* renderer, std::shared_ptr<Defaults> gameDefaults);
-
+	SDL_Surface* textSurface;
+	
 public:
 
-	RenderableText(int y, std::string font, std::string text, int size, std::shared_ptr<Defaults> game_defaults);
-	void render_object(SDL_Renderer* myRenderer);
-	void render_object_left(std::shared_ptr<GameWindow> game_window, signed int adjust = 0);
-	void render_object_right(std::shared_ptr<GameWindow> game_window);
+	RenderableText(int y, std::string font, std::string text, int size, std::shared_ptr<Defaults> gameDefaults, uint8_t colourRed,uint8_t colourGreen,uint8_t colourBlue);
+	void fillRect(SDL_Rect* rectangle, SDL_Renderer* renderer, std::shared_ptr<Defaults> gameDefaults) const;
+	void renderObject(SDL_Renderer* myRenderer) const;
+	void renderObjectLeft(std::shared_ptr<GameWindow> gameWindow, signed int adjust = 0);
+	void renderObjectRight(std::shared_ptr<GameWindow> gameWindow);
+	void changeX(int newReferencePoint);
 	~RenderableText();
-	//int get_x() const;
-	//int get_y() const;
-	//std::string get_font() const;
-	//std::string get_text() const;
-	//void update_text(std::string newtext);
-
-	//uint8_t get_colour_red() const;
-	//uint8_t get_colour_blue() const;
-	//uint8_t get_colour_green() const;
-
-	//void draw_element(SDL_Renderer* myRenderer);
-
 	
-
 };
-
 
 #endif

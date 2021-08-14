@@ -2,91 +2,108 @@
 
 Defaults::Defaults() {}
 
-int Defaults::get_screen_width() const {
-	return SCREEN_WIDTH;
+const int Defaults::getScreenWidth() const {
+	return screenWidth;
 }
 
-int Defaults::get_screen_height() const {
-	return SCREEN_HEIGHT;
+const int Defaults::getScreenHeight() const {
+	return screenHeight;
 }
 
-std::string Defaults::get_game_font() const {
-	return game_font;
+const int Defaults::getGridWidth() const {
+	return gridWidth;
+}
+const int Defaults::getGridHeight() const {
+	return gridHeight;
 }
 
-std::string Defaults::get_intro_font() const {
-	return intro_font;
+const std::string Defaults::getGameFont() const {
+	return gameFont;
 }
 
-std::string Defaults::get_game_name() const {
-	return game_name;
-}
-std::string Defaults::get_game_intro() const {
-	return start_game_text;
-}
-uint8_t Defaults::get_main_colour_red() const {
-	return main_colour_red;
-}
-uint8_t Defaults::get_main_colour_blue() const {
-	return main_colour_blue;
-}
-uint8_t Defaults::get_main_colour_green() const {
-	return main_colour_green;
-}
-//std::string Defaults::get_game_picture() const {
-//const char* Defaults::get_game_picture() const {
-//	return gamePicture.at(0);
-//}
-
-int Defaults::get_no_across() const {
-	return tile_no_across;
+const std::string Defaults::getIntroFont() const {
+	return introFont;
 }
 
-int Defaults::get_no_down() const {
-	return tile_no_down;
+const std::string Defaults::getGameName() const {
+	return gameName;
+}
+const std::string Defaults::getGameIntro() const {
+	return startGameText;
+}
+const uint8_t Defaults::getMainColourRed() const {
+	return mainColourRed;
+}
+const uint8_t Defaults::getMainColourBlue() const {
+	return mainColourBlue;
+}
+const uint8_t Defaults::getMainColourGreen() const {
+	return mainColourGreen;
 }
 
-const char* Defaults::get_gamePicture(int x) const {
+const int Defaults::getNoAcross() const {
+	return tileNoAcross;
+}
+
+const int Defaults::getNoDown() const {
+	return tileNoDown;
+}
+
+const char* Defaults::getGamePicture(const int x) const {
 	if (x < gamePicture.size()) {
 		return gamePicture.at(x);
 	}
 	else return gamePicture.at(0);
 }
 
-int Defaults::get_banner_height() const {
-	return banner_height;
+const int Defaults::getBannerHeight() const {
+	return bannerHeight;
 }
 
-uint8_t Defaults::get_intro_background_colour_red() const {
-	return intro_background_colour_red;
+const uint8_t Defaults::getIntroBackgroundColourRed() const {
+	return introBackgroundColourRed;
 }
-uint8_t Defaults::get_intro_background_colour_blue() const {
-	return intro_background_colour_blue;
+const uint8_t Defaults::getIntroBackgroundColourBlue() const {
+	return introBackgroundColourBlue;
 }
-uint8_t Defaults::get_intro_background_colour_green() const {
-	return intro_background_colour_green;
-}
-
-void Defaults::update_current_pic(int new_choice) {
-	current_pic = new_choice;
+const uint8_t Defaults::getIntroBackgroundColourGreen() const {
+	return introBackgroundColourGreen;
 }
 
-int Defaults::get_current_pic() const {
-	return current_pic;
+void Defaults::updateCurrentPic(int newChoice) {
+	currentPic = newChoice;
 }
 
-std::string Defaults::get_choose_pic_text() const {
-	return choose_pic_text;
+int Defaults::getCurrentPic() const {
+	return currentPic;
 }
 
-std::string Defaults::get_are_you_sure_text() const {
-	return are_you_sure_text;
+const std::string Defaults::getChoosePicText() const {
+	return choosePicText;
 }
 
-std::string Defaults::get_congrats_text() const {
-	return congrats_text;
+const std::string Defaults::getAreYouSureText() const {
+	return areYouSureText;
 }
 
-std::string Defaults::get_play_again_text() const {
-	return play_again_text;
+const std::string Defaults::getCongratsText() const {
+	return congratsText;
+}
+
+const std::string Defaults::getPlayAgainText() const {
+	return playAgainText;
+}
+
+const int Defaults::getLeftMargin() const {
+	return leftMargin;
+}
+
+const uint8_t Defaults::getsecondaryColourRed() const{
+	return secondaryColourRed;
+}
+const uint8_t Defaults::getsecondaryColourBlue() const{
+	return secondaryColourBlue;
+}
+const uint8_t Defaults::getsecondaryColourGreen() const{
+	return secondaryColourGreen;
 }

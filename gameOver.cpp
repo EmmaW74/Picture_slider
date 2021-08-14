@@ -5,19 +5,19 @@
 #include "RenderableText.h"
 
 gameOver::gameOver(std::shared_ptr<Defaults> defaults, std::shared_ptr<GameWindow> window):
-	game_defaults{ defaults }, game_window{ window } {
+	gameDefaults{ defaults }, gameWindow{ window } {
 
 }
-void gameOver::display_are_you_sure() const {
-	game_window->fill_background();
-	int y = game_defaults->get_screen_height() / 2;
+void gameOver::displayAreYouSure() const {
+	gameWindow->fillBackground();
+	int y = gameDefaults->getScreenHeight() / 2;
 	int size = 26;
-	RenderableText are_you_sure{ y,game_defaults->get_game_font(),game_defaults->get_are_you_sure_text(),size,game_defaults };
-	are_you_sure.render_object(game_window->get_myRenderer());
-	game_window->publishTexture();
+	RenderableText areYouSure{ y,gameDefaults->getGameFont(),gameDefaults->getAreYouSureText(),size,gameDefaults,gameDefaults->getMainColourRed(),gameDefaults->getMainColourGreen(),gameDefaults->getMainColourBlue() };
+	areYouSure.renderObject(gameWindow->getMyRenderer());
+	gameWindow->publishTexture();
 }
 
-bool gameOver::handle_are_you_sure() const {
+bool gameOver::handleAreYouSure() const {
 	bool waiting = true;
 	SDL_Event e;
 	while (waiting) {
@@ -40,22 +40,23 @@ bool gameOver::handle_are_you_sure() const {
 
 void gameOver::congratulations() const {
 	//Add congrats and play again text to renderer and publish to screen
-	game_window->fill_background();
 
-	int y = game_defaults->get_screen_height() / 3;
-	int size = 40;
-	RenderableText congrats{ y,game_defaults->get_intro_font(),game_defaults->get_congrats_text(),size,game_defaults };
-	congrats.render_object(game_window->get_myRenderer());
+	int y = gameDefaults->getScreenHeight() / 3;
+	int size = 60;
+	RenderableText congrats{ y,gameDefaults->getGameFont(),gameDefaults->getCongratsText(),size,gameDefaults,gameDefaults->getsecondaryColourRed(),gameDefaults->getsecondaryColourGreen(),gameDefaults->getsecondaryColourBlue(), };
+	congrats.changeX(gameDefaults->getGridWidth());
+	congrats.renderObject(gameWindow->getMyRenderer());
 	SDL_Delay(1000);
 
-	y = game_defaults->get_screen_height() / 2;
+	y = gameDefaults->getScreenHeight() / 2;
 	size = 26;
-	RenderableText play_again{ y,game_defaults->get_game_font(),game_defaults->get_play_again_text(),size,game_defaults };
-	play_again.render_object(game_window->get_myRenderer());
-	game_window->publishTexture();
+	RenderableText playAgain{ y,gameDefaults->getGameFont(),gameDefaults->getPlayAgainText(),size,gameDefaults ,gameDefaults->getsecondaryColourRed(),gameDefaults->getsecondaryColourGreen(),gameDefaults->getsecondaryColourBlue() };
+	playAgain.changeX(gameDefaults->getGridWidth());
+	playAgain.renderObject(gameWindow->getMyRenderer());
+	gameWindow->publishTexture();
 }
 
-bool gameOver::handle_play_again() const {
+bool gameOver::handlePlayAgain() const {
 	//THIS CAN POSSIBLY BE MERGED WITH OTHER HANDLE Y/N METHODS
 	bool waiting = true;
 	SDL_Event e;

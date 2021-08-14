@@ -13,16 +13,18 @@ private:
 	SDL_Window* myAppWindow = NULL;
 	SDL_Renderer* myRenderer = NULL;
 	SDL_Texture* myTexture = NULL;
-	std::shared_ptr<Defaults> gameDefaults; //Need defaults class created
+	std::shared_ptr<Defaults> gameDefaults; 
 
 
 public:
 
-	GameWindow(std::shared_ptr<Defaults> game_defaults);
+	GameWindow(std::shared_ptr<Defaults> gameDefaults);
 	void publishTexture();
-	SDL_Renderer* get_myRenderer() const;
-	void fill_background();
-	void draw_rectangle(SDL_Rect rect, int border_size, std::shared_ptr<Defaults>game_defaults);
+	void createTileTexture();
+	SDL_Renderer* getMyRenderer() const;
+	void fillBackground();
+	void drawRectangle(SDL_Rect rect, int borderSize, std::shared_ptr<Defaults>gameDefaults);
+	void drawReferencePic();
 	~GameWindow();
 };
 

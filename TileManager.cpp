@@ -7,23 +7,23 @@
 #include "gameWindow.h"
 #include <random>
 
-TileManager::TileManager(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> game_window):
-	game_defaults{ game_defaults }, game_window{ game_window }{
-	create_tile_texture();
+TileManager::TileManager(std::shared_ptr<Defaults> gameDefaults, std::shared_ptr<GameWindow> gameWindow):
+	gameDefaults{ gameDefaults }, gameWindow{ gameWindow }{
+	createTileTexture();
 	
 }
-void TileManager::create_tile_texture() {
-	//loads image and creates a texture of the image
-	SDL_Surface* tempSurface = IMG_Load(game_defaults->get_gamePicture(game_defaults->get_current_pic()));
+void TileManager::createTileTexture() {
+	//loads image and creates a texture of the image MOVE TO GAME WINDOW??
+	SDL_Surface* tempSurface = IMG_Load(gameDefaults->getGamePicture(gameDefaults->getCurrentPic()));
 	if (tempSurface == NULL)
 	{
 		std::cout << "RenderableImage: Unable to load image" << SDL_GetError() << std::endl;
 	}
 	else {
 		
-		tile_texture = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), tempSurface) ;
+		tileTexture = SDL_CreateTextureFromSurface(gameWindow->getMyRenderer(), tempSurface) ;
 		
-		if (tile_texture == NULL)
+		if (tileTexture == NULL)
 		{
 			std::cout << "RenderableImage: Unable to create texture" << std::endl;
 		}
@@ -34,129 +34,202 @@ void TileManager::create_tile_texture() {
 	}
 }
 
-void TileManager::set_rect(SDL_Rect* rect, int pos) {
+void TileManager::setRect(SDL_Rect* rect, int pos) {
 	//calculate rect position based on pos and update rect x,y,w,h
-	rect->w = (game_defaults->get_screen_width() / game_defaults->get_no_across());
-	rect->h = (game_defaults->get_screen_height() - game_defaults->get_banner_height()) / game_defaults->get_no_down();
-	rect->x = ((pos) % game_defaults->get_no_across()) * rect->w;
-	rect->y = (((pos) / game_defaults->get_no_across()) * rect->h) + game_defaults->get_banner_height();
+	rect->w = gameDefaults->getGridWidth() / gameDefaults->getNoAcross();
+	rect->h = gameDefaults->getGridHeight() / gameDefaults->getNoDown();
+	rect->x = (((pos) % gameDefaults->getNoAcross()) * rect->w) + gameDefaults->getLeftMargin();
+	rect->y = (((pos) / gameDefaults->getNoAcross()) * rect->h) + gameDefaults->getBannerHeight();
 }
 
-void TileManager::create_tile_list() {
+void TileManager::createTileList() {
 	//Fill deque with tile objects
-	int no_of_tiles = (game_defaults->get_no_across() * game_defaults->get_no_down());
-	for (int x = 0; x < no_of_tiles; x++) {
+	int noOfTiles = (gameDefaults->getNoAcross() * gameDefaults->getNoDown());
+	for (int x = 0; x < noOfTiles; x++) {
 		SDL_Rect* tempSourceRect = new SDL_Rect{ 0,0,0 };
 		SDL_Rect* tempDestRect = new SDL_Rect{ 0,0,0 };
-		set_rect(tempSourceRect, x);
-		set_rect(tempDestRect, x);
+		setRect(tempSourceRect, x);
+		setRect(tempDestRect, x);
 		std::shared_ptr<Tile> tempTile = std::make_shared<Tile>(tempSourceRect,tempDestRect,x);
-		tile_list.push_back(*tempTile); 
+		tileList.push_back(*tempTile); 
 	}
-	tile_list.at(no_of_tiles - 1).update_blank();
+	tileList.at(noOfTiles - 1).updateBlank();
+
+	
 }
 
-void TileManager::swap_tiles(Tile* blank, Tile* pic) {
+void TileManager::swapTiles(Tile* blank, Tile* pic) {
 	//Swaps the target position and source rect of the parameter tiles
 
-	SDL_Rect tempBlankSourceRect = *blank->get_source_rect();
-	int tempBlankTargetPos = blank->get_target_pos();
+	SDL_Rect tempBlankSourceRect = *blank->getSourceRect();
+	int tempBlankTargetPos = blank->getTargetPos();
 
-	blank->update_target_pos(pic->get_target_pos());
-	blank->update_source_rectangle(pic->get_source_rect());
+	blank->updateTargetPos(pic->getTargetPos());
+	blank->updateSourceRect(pic->getSourceRect());
 
-	pic->update_target_pos(tempBlankTargetPos);
-	pic->update_source_rectangle(&tempBlankSourceRect);
+	pic->updateTargetPos(tempBlankTargetPos);
+	pic->updateSourceRect(&tempBlankSourceRect);
 
-	Tile* temp_move = blank;
+	Tile* tempMove = blank;
 	blank = pic;
-	pic = temp_move;
+	pic = tempMove;
 
-	blank->update_blank();
-	pic->update_blank();
-	blank_position = blank->get_current_pos();
+	blank->updateBlank();
+	pic->updateBlank();
+	blankTilePosition = blank->getCurrentPos();
 
 }
 
-void TileManager::move_tile(Direction move) {
+void TileManager::moveTile(Direction move) {
 	//Calls function to swap tiles based on arrow direction
-	if (move == Direction::DOWN && blank_position >= game_defaults->get_no_across()) {
-		int temp_blank = blank_position;
-		int temp_pic = blank_position - game_defaults->get_no_across();
-		swap_tiles(&tile_list.at(temp_blank), &tile_list.at(temp_pic));
+	if (move == Direction::DOWN && blankTilePosition >= gameDefaults->getNoAcross()) {
+		int tempBlank = blankTilePosition;
+		int tempPic = blankTilePosition - gameDefaults->getNoAcross();
+		swapTiles(&tileList.at(tempBlank), &tileList.at(tempPic));
 	}
 	
-	else if (move == Direction::UP && blank_position < (game_defaults->get_no_across()* (game_defaults->get_no_down()-1))) {
-		int temp_blank = blank_position;
-		int temp_pic = blank_position + game_defaults->get_no_across();
-		swap_tiles(&tile_list.at(temp_blank), &tile_list.at(temp_pic));
+	else if (move == Direction::UP && blankTilePosition < (gameDefaults->getNoAcross()* (gameDefaults->getNoDown()-1))) {
+		int tempBlank = blankTilePosition;
+		int tempPic = blankTilePosition + gameDefaults->getNoAcross();
+		swapTiles(&tileList.at(tempBlank), &tileList.at(tempPic));
 	} 
 
-	else if (move == Direction::LEFT && ((blank_position+1) % game_defaults->get_no_across())!= 0) {
-		int temp_blank = blank_position;
-		int temp_pic = blank_position + 1;
-		swap_tiles(&tile_list.at(temp_blank), &tile_list.at(temp_pic));
+	else if (move == Direction::LEFT && ((blankTilePosition+1) % gameDefaults->getNoAcross())!= 0) {
+		int tempBlank = blankTilePosition;
+		int tempPic = blankTilePosition + 1;
+		swapTiles(&tileList.at(tempBlank), &tileList.at(tempPic));
 	}
 
-	else if (move == Direction::RIGHT && ((blank_position + 1) % game_defaults->get_no_across()) != 1) {
-		int temp_blank = blank_position;
-		int temp_pic = blank_position - 1;
-		swap_tiles(&tile_list.at(temp_blank), &tile_list.at(temp_pic));
+	else if (move == Direction::RIGHT && ((blankTilePosition + 1) % gameDefaults->getNoAcross()) != 1) {
+		int tempBlank = blankTilePosition;
+		int tempPic = blankTilePosition - 1;
+		swapTiles(&tileList.at(tempBlank), &tileList.at(tempPic));
 	}
 
-	SDL_RenderClear(game_window->get_myRenderer());
-	draw_tiles();
+	SDL_RenderClear(gameWindow->getMyRenderer());
+	gameWindow->fillBackground();
+	drawTiles();
 }
 
-void TileManager::update_blank_pos() {
+void TileManager::updateBlankPos() {
 	//Records current position of blank tile
-	auto it = tile_list.begin();
-	if (it!=tile_list.end() && it->get_blank()) {
-		blank_position = it->get_current_pos();
+	auto it = tileList.begin();
+	if (it!=tileList.end() && it->getBlank()) {
+		blankTilePosition = it->getCurrentPos();
 		it++;
 	}
 }
 
-void TileManager::shuffle_tile_list() {
+void TileManager::shuffleTileList() {
 	//Shuffles tiles in deque, updates current position and destination rect for each tile, records starting blank position
-	shuffle(tile_list.begin(), tile_list.end(), std::default_random_engine(std::random_device()()));
-	int no_of_tiles = (game_defaults->get_no_across() * game_defaults->get_no_down());
-	int pos = 0;
-	for (int x = 0; x < no_of_tiles; x++) {
-		SDL_Rect* tempRect = new SDL_Rect{ 0,0,0 };
-		set_rect(tempRect, pos);
-		tile_list.at(pos).update_dest_rect(tempRect->x, tempRect->y, tempRect->w, tempRect->h);
-		tile_list.at(pos).update_current_pos(pos);
-		if (tile_list.at(pos).get_blank()) {
-			blank_position = pos;
+	
+	do {
+		shuffle(tileList.begin(), tileList.end(), std::default_random_engine(std::random_device()()));
+		int noOfTiles = (gameDefaults->getNoAcross() * gameDefaults->getNoDown());
+		int pos = 0;
+		for (int x = 0; x < noOfTiles; x++) {
+			SDL_Rect* tempRect = new SDL_Rect{ 0,0,0 };
+			setRect(tempRect, pos);
+			tileList.at(pos).updateDestRect(tempRect->x, tempRect->y, tempRect->w, tempRect->h);
+			tileList.at(pos).updateCurrentPos(pos);
+			if (tileList.at(pos).getBlank()) {
+				blankTilePosition = pos;
+			}
+			pos++;
 		}
-		pos++;
+	} while (!checkSolvable(gameDefaults->getNoDown()));
+		
+	//initial_list = tileList; //Test - copy initial list
+	//initial_inversions = countInversions();
+}
+
+bool TileManager::checkSolvable(int gridSize) {
+	int blankPos = NULL;
+	if (gridSize % 2 == 0) {
+		//EVEN SIZED GRID
+		//First iterate to find current pos of blank tile (blank is true)
+		for (auto& i : tileList) {
+			if (i.getBlank()) {
+				blankPos = i.getCurrentPos();
+			}
+		}
+
+		if ((blankPos / gameDefaults->getNoDown()) % 2 == 1) {
+			//If blank is on odd row from bottom (row n-1, n-3 .... n-n) even inversions is valid
+			if (countInversions() % 2 != 0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else {
+			//if blank is on even row from bottom (row n-1, n-3 .... n-n), odd inversions is valid
+			if (countInversions() % 2 == 0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+	} else {
+
+		//ODD SIZED GRID - solvable if even number of inversions
+		if (countInversions() %2 != 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 }
 
-void TileManager::draw_tiles() {
+
+int TileManager::countInversions() {
+	//iterate over all pairs and keep a running count of inversions (even no is valid if grid is odd)
+	int count = 0;
+	for (unsigned int x = 0; x < tileList.size(); x++) {
+		for (unsigned int y = x+1; y < tileList.size(); y++) {
+			if (!tileList.at(x).getBlank() && (tileList.at(x).getTargetPos() > tileList.at(y).getTargetPos())) {
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+void TileManager::drawTiles() {
 	//Draws source rect in dest rect for each tile not flagged as blank. For blank tile it draws a blank square.
-	auto it = tile_list.begin();
-	while (it != tile_list.end()) {
-		if (it->get_blank()) {
-			SDL_SetRenderDrawColor(game_window->get_myRenderer(), game_defaults->get_intro_background_colour_red(), game_defaults->get_intro_background_colour_blue(), game_defaults->get_intro_background_colour_green(),255);
-			SDL_RenderFillRect(game_window->get_myRenderer(), it->get_dest_rect());
+	auto it = tileList.begin();
+	while (it != tileList.end()) {
+		if (it->getBlank()) {
+			SDL_SetRenderDrawColor(gameWindow->getMyRenderer(), gameDefaults->getIntroBackgroundColourRed(), gameDefaults->getIntroBackgroundColourBlue(), gameDefaults->getIntroBackgroundColourGreen(),255);
+			SDL_RenderFillRect(gameWindow->getMyRenderer(), it->getDestRect());
 			
 		}
 		else {
-			SDL_RenderCopy(game_window->get_myRenderer(), tile_texture, it->get_source_rect(), it->get_dest_rect());
+			SDL_RenderCopy(gameWindow->getMyRenderer(), tileTexture, it->getSourceRect(), it->getDestRect());
 		}
 		it++;
 	}
-	game_window->publishTexture();
+	SDL_Rect outlineRect{};
+	outlineRect.w = gameDefaults->getGridWidth();
+	outlineRect.h = gameDefaults->getGridHeight();
+	outlineRect.x = gameDefaults->getLeftMargin();
+	outlineRect.y = gameDefaults->getBannerHeight();
+
+	gameWindow->drawRectangle(outlineRect, 3, gameDefaults);
+	gameWindow->drawReferencePic();
+	gameWindow->publishTexture();
 	
 }
-bool TileManager::check_solved() {
+
+bool TileManager::checkSolved() {
 	//Checks if each tile is currently in the target position
-	auto it = tile_list.begin();
+	auto it = tileList.begin();
 	
-	while (it != tile_list.end()) {
-		if (it->get_current_pos() != it->get_target_pos()) {
+	while (it != tileList.end()) {
+		if (it->getCurrentPos() != it->getTargetPos()) {
 			std::cout << "Not solved" << std::endl;
 			return false;
 		}

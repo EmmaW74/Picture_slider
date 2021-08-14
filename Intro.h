@@ -11,22 +11,22 @@
 class Intro
 {
 private:
-	std::shared_ptr<Defaults> game_defaults;
-	std::shared_ptr<GameWindow> game_window;
+	std::shared_ptr<Defaults> gameDefaults;
+	std::shared_ptr<GameWindow> gameWindow;
 	
 public:
-	Intro(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> window);
-	void run_intro();
-	void render_title();
-	int choose_pic();
-	void render_intro_text();
-	void render_choose_pic_text();
-	void render_grid();
+	Intro(std::shared_ptr<Defaults> gameDefaults, std::shared_ptr<GameWindow> window);
+	void runIntro();
+	void renderTitle();
+	int choosePic();
+	void renderIntroText();
+	void renderChoosePicText();
+	void renderGrid();
 	void renderText(SDL_Surface* surfaceMessage, int y);
-	void update_selection(Direction direction);
-	void highlight_pic(int pos);
-	void display_pics();
-	SDL_Texture* upload_pic(const char* pic_file);
+	void updateSelection(Direction direction);
+	void highlightPic(int pos);
+	void displayPics();
+	SDL_Texture* uploadPic(const char* picFile);
 	
 };
 

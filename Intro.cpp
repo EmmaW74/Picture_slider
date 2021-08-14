@@ -6,62 +6,62 @@
 #include <iostream>
 
 
-Intro::Intro(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> window) :
-	game_defaults{ game_defaults }, game_window{ window } {
+Intro::Intro(std::shared_ptr<Defaults> gameDefaults, std::shared_ptr<GameWindow> window) :
+	gameDefaults{ gameDefaults }, gameWindow{ window } {
 }
 
-void Intro::run_intro() {
+void Intro::runIntro() {
 	//calls methods to display intro screen
-	game_window->fill_background();
-	render_title();
-	render_intro_text();
+	gameWindow->fillBackground();
+	renderTitle();
+	renderIntroText();
 }
 
-void Intro::render_title() {
+void Intro::renderTitle() {
 	//Add title and intro text to renderer and publish to screen
-	std::istringstream iss{ game_defaults->get_game_name() };
+	std::istringstream iss{ gameDefaults->getGameName() };
 	std::string line1{};
 	std::string line2{};
 	iss >> line1 >> line2;
 
-	int y = (game_defaults->get_screen_height() / 5);
+	int y = (gameDefaults->getScreenHeight() / 5);
 	int size = 100;
-	RenderableText title_line1{ y,game_defaults->get_intro_font(),line1,size,game_defaults };
-	title_line1.render_object_left(game_window,-5);
+	RenderableText titleLine1{ y,gameDefaults->getIntroFont(),line1,size,gameDefaults,gameDefaults->getMainColourRed(),gameDefaults->getMainColourGreen(),gameDefaults->getMainColourBlue() };
+	titleLine1.renderObjectLeft(gameWindow,-5);
 	
-	y = (game_defaults->get_screen_height() / 5) + size;
-	RenderableText title_line2{ y,game_defaults->get_intro_font(),line2,size,game_defaults };
-	title_line2.render_object_right(game_window);
+	y = (gameDefaults->getScreenHeight() / 5) + size;
+	RenderableText titleLine2{ y,gameDefaults->getIntroFont(),line2,size,gameDefaults,gameDefaults->getMainColourRed(),gameDefaults->getMainColourGreen(),gameDefaults->getMainColourBlue() };
+	titleLine2.renderObjectRight(gameWindow);
 
 	
 }
 
-void Intro::render_choose_pic_text() {
-	int y = game_defaults->get_screen_height() / 10;
+void Intro::renderChoosePicText() {
+	int y = gameDefaults->getScreenHeight() / 10;
 	int size = 26;
-	RenderableText choose_pic{ y,game_defaults->get_intro_font(),game_defaults->get_choose_pic_text(),size,game_defaults };
-	choose_pic.render_object(game_window->get_myRenderer());
-	game_window->publishTexture();
+	RenderableText choosePic{ y,gameDefaults->getGameFont(),gameDefaults->getChoosePicText(),size,gameDefaults,gameDefaults->getMainColourRed(),gameDefaults->getMainColourGreen(),gameDefaults->getMainColourBlue() };
+	choosePic.renderObject(gameWindow->getMyRenderer());
+	gameWindow->publishTexture();
 }
 
-void Intro::render_intro_text() {
-	int y = (game_defaults->get_screen_height() / 10)*7;
+void Intro::renderIntroText() {
+	int y = (gameDefaults->getScreenHeight() / 10)*7;
 	int size = 30;
-	RenderableText choose_pic{ y,game_defaults->get_intro_font(),game_defaults->get_game_intro(),size,game_defaults };
-	choose_pic.render_object(game_window->get_myRenderer());
-	game_window->publishTexture();
+	RenderableText choosePic{ y,gameDefaults->getGameFont(),gameDefaults->getGameIntro(),size,gameDefaults,gameDefaults->getMainColourRed(),gameDefaults->getMainColourGreen(),gameDefaults->getMainColourBlue() };
+	choosePic.renderObject(gameWindow->getMyRenderer());
+	gameWindow->publishTexture();
 }
 
-SDL_Texture* Intro::upload_pic(const char* pic_file) {
+SDL_Texture* Intro::uploadPic(const char* picFile) {
 	//Uploads picture file and returns as a texture
-	SDL_Surface* tempSurface = IMG_Load(pic_file);
+	SDL_Surface* tempSurface = IMG_Load(picFile);
 	if (tempSurface == NULL)
 	{
-		std::cout << "upload_pic: Unable to load image" << SDL_GetError() << std::endl;
+		std::cout << "uploadPic: Unable to load image" << SDL_GetError() << std::endl;
 	}
 	else {
 
-		SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(game_window->get_myRenderer(), tempSurface);
+		SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(gameWindow->getMyRenderer(), tempSurface);
 		if (tempTexture == NULL)
 		{
 			std::cout << "RenderableImage: Unable to create texture" << std::endl;
@@ -74,70 +74,73 @@ SDL_Texture* Intro::upload_pic(const char* pic_file) {
 	}
 }
 
-	void Intro::display_pics() {
+	void Intro::displayPics() {
 		//Displays 4 pics on screen ready to choose
-		game_window->fill_background();
+		gameWindow->fillBackground();
 		SDL_Rect temp{};
-		temp.w = (game_defaults->get_screen_width() / 10) * 2;
-		temp.h = (game_defaults->get_screen_width() / 10) * 2;
+		temp.w = (gameDefaults->getScreenHeight() / 7) * 2;
+		temp.h = (gameDefaults->getScreenHeight() / 7) * 2;
+		
 		SDL_Texture* tempTexture;
-
 		int pic = 0;
-		for (int y = 2; y < 8; y += 4) {
-			for (int x = 2; x < 8; x+=4) {
-				tempTexture = upload_pic(game_defaults->get_gamePicture(pic));
-				temp.x = ((game_defaults->get_screen_width() / 10) * x);
-				temp.y = ((game_defaults->get_screen_width() / 10) * y);
-				SDL_RenderCopy(game_window->get_myRenderer(), tempTexture, NULL, &temp);
+		for (int y =1; y < 5; y += 3) {
+			int startX = (gameDefaults->getScreenWidth() - (temp.w * 3)) / 2;
+			for (int x = 0; x < 3; x+=2) {
+				tempTexture = uploadPic(gameDefaults->getGamePicture(pic));
+				temp.x = startX + (x * temp.w);
+				temp.y = ((gameDefaults->getScreenHeight() / 7) * y)+gameDefaults->getBannerHeight();
+				SDL_RenderCopy(gameWindow->getMyRenderer(), tempTexture, NULL, &temp);
 				pic++;
 			}
 		}
-		render_choose_pic_text();
+		renderChoosePicText();
 		
 	}
-	void Intro::highlight_pic(int pos) {
+	void Intro::highlightPic(int pos) {
 		//Draws calls function to draw rect around selected picture
-		game_window->fill_background();
-		display_pics();
+		gameWindow->fillBackground();
+		displayPics();
 
-		int pic_dimension = (game_defaults->get_screen_width() / 10) * 2;
-		
+		int picDimension = ((gameDefaults->getScreenHeight() / 7) * 2);
+		int startX = ((gameDefaults->getScreenWidth() - (3 * picDimension))) / 2;
+		int startY = ((gameDefaults->getScreenHeight() / 7)) + gameDefaults->getBannerHeight(); //6
 		SDL_Rect outlineRect{};
-		outlineRect.w = pic_dimension;
-		outlineRect.h = pic_dimension;
-		outlineRect.x = (pic_dimension + ((pos % 2) * (2 * pic_dimension)));
-		outlineRect.y = (pic_dimension + ((pos / 2) * (2 * pic_dimension)));
-
-		game_window->draw_rectangle(outlineRect, 6, game_defaults);
-		game_window->publishTexture();
+		outlineRect.w = picDimension;
+		outlineRect.h = picDimension;
+		//outlineRect.x = (picDimension + ((pos % 2) * (2 * picDimension)));
+		outlineRect.x = ((startX + ((pos % 2) * (2 * picDimension))));
+		//outlineRect.y = (picDimension + ((pos / 2) * (2 * picDimension)))+gameDefaults->getLeftMargin();
+		outlineRect.y = startY + ((pos/2)*((gameDefaults->getScreenHeight() / 7) *3));
+		gameWindow->drawRectangle(outlineRect, 6, gameDefaults);
+		gameWindow->publishTexture();
 	}
 
-	void Intro::update_selection(Direction direction){
+	void Intro::updateSelection(Direction direction){
 		//Update default current picture and move highlight on screen based on direction argument
 		
 		if (direction == Direction::LEFT){
-			if (game_defaults->get_current_pic() == 0) {
-				game_defaults->update_current_pic(3);
-				highlight_pic(3);
+			if (gameDefaults->getCurrentPic() == 0) {
+				gameDefaults->updateCurrentPic(3);
+				highlightPic(3);
 			}
 			else {
-				int temp = game_defaults->get_current_pic();
+				int temp = gameDefaults->getCurrentPic();
 				temp--;
-				game_defaults->update_current_pic(temp);
-				highlight_pic(temp);
+				gameDefaults->updateCurrentPic(temp);
+				highlightPic(temp);
 			}
 		}
 		else if (direction == Direction::RIGHT) {
 		
-			if (game_defaults->get_current_pic() == 3) {
-				game_defaults->update_current_pic(0);
-				highlight_pic(0);
+			if (gameDefaults->getCurrentPic() == 3) {
+				gameDefaults->updateCurrentPic(0);
+				highlightPic(0);
 			}
 			else {
-				int temp = game_defaults->get_current_pic();
+				int temp = gameDefaults->getCurrentPic();
 				temp++;
-				game_defaults->update_current_pic(temp);
-				highlight_pic(temp);
+				gameDefaults->updateCurrentPic(temp);
+				highlightPic(temp);
 			}
 		}
 	}

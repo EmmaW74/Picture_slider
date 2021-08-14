@@ -2,82 +2,73 @@
 #include "SDL_ttf.h"
 #include "gameWindow.h"
 
-RenderableText::RenderableText(int y, std::string font, std::string text, int size, std::shared_ptr<Defaults> game_defaults):
-	y{ y }, text{ text }, font{ font }, size{ size }, game_defaults{ game_defaults }{
-	colour_red = game_defaults->get_main_colour_red();
-	colour_blue = game_defaults->get_main_colour_blue();
-	colour_green = game_defaults->get_main_colour_green();
+RenderableText::RenderableText(int y, std::string font, std::string text, int size, std::shared_ptr<Defaults> gameDefaults, uint8_t colourRed, uint8_t colourGreen, uint8_t colourBlue):
+	y{ y }, text{ text }, font{ font }, size{ size }, gameDefaults{ gameDefaults }, colourRed{ colourRed }, colourGreen{ colourGreen }, colourBlue{ colourBlue }{
 
 	TTF_Init();
-	TTF_Font* tempFont = TTF_OpenFont(font.c_str(), size); //this opens a font style and sets a size
-	SDL_Color tempColor = { colour_red, colour_green, colour_blue };
-	text_surface = TTF_RenderText_Solid(tempFont, text.c_str(), tempColor); //Create surface first
-	x = (game_defaults->get_screen_width() - text_surface->w) / 2;
+	TTF_Font* tempFont = TTF_OpenFont(font.c_str(), size); 
+	SDL_Color tempColor = { colourRed, colourGreen, colourBlue };
+	textSurface = TTF_RenderText_Solid(tempFont, text.c_str(), tempColor); 
+	x = (gameDefaults->getScreenWidth() - textSurface->w) / 2;
 }
 
+void RenderableText::changeX(int newReferencePoint) {
+	//updates the x co-ordinate for the text on screen
+	x = ((gameDefaults->getGridWidth() - textSurface->w)/2) + gameDefaults->getLeftMargin();
+}
 
-void RenderableText::render_object(SDL_Renderer* myRenderer) {
+void RenderableText::renderObject(SDL_Renderer* myRenderer) const {
 	//creates a texture for the text and copies to myRenderer ready to publish
-	
-	SDL_Texture* text_texture = SDL_CreateTextureFromSurface(myRenderer, text_surface); //Convert to texture
-
-	SDL_Rect Message_rect{x,y,text_surface->w,text_surface->h};
-	SDL_RenderCopy(myRenderer, text_texture, NULL, &Message_rect);
-
-	//SDL_FreeSurface(surfaceMessage);
-	SDL_DestroyTexture(text_texture);
+	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(myRenderer, textSurface); 
+	SDL_Rect messageRect{x,y,textSurface->w,textSurface->h};
+	SDL_RenderCopy(myRenderer, textTexture, NULL, &messageRect);
+	SDL_DestroyTexture(textTexture);
 }
 
-void RenderableText::render_object_left(std::shared_ptr<GameWindow> game_window, signed int adjust){
+void RenderableText::renderObjectLeft(std::shared_ptr<GameWindow> gameWindow, signed int adjust) {
 	//Object slides onto screen from left
 	SDL_Rect rect;
 	rect.y = y;
-	rect.w = text_surface->w;
-	rect.h = text_surface->h;
+	rect.w = textSurface->w;
+	rect.h = textSurface->h;
 
-	for (x = 0; x < ((game_defaults->get_screen_width() - text_surface->w) / 2)+adjust; x++) {
-		//game_window->fill_background();
-
+	for (x = 0; x < ((gameDefaults->getScreenWidth() - textSurface->w) / 2)+adjust; x++) {
 		rect.x = x;
-		fill_rect(&rect, game_window->get_myRenderer(), game_defaults);
-		render_object(game_window->get_myRenderer());
-		game_window->publishTexture();
-		SDL_Delay(5);
+		fillRect(&rect, gameWindow->getMyRenderer(), gameDefaults);
+		renderObject(gameWindow->getMyRenderer());
+		gameWindow->publishTexture();
+		SDL_Delay(1);
 		rect.x = x;
-		fill_rect(&rect, game_window->get_myRenderer(), game_defaults); 
+		fillRect(&rect, gameWindow->getMyRenderer(), gameDefaults); 
 	}
-	render_object(game_window->get_myRenderer());
-	//Add intro text??
+	renderObject(gameWindow->getMyRenderer());
 }
 
 
 
-void RenderableText::render_object_right (std::shared_ptr<GameWindow> game_window) {
+void RenderableText::renderObjectRight (std::shared_ptr<GameWindow> gameWindow) {
 	//Object slides onto screen from right
 	SDL_Rect rect;
 	rect.y = y;
-	rect.w = text_surface->w;
-	rect.h = text_surface->h;
-	for (x = game_defaults->get_screen_width(); x > (game_defaults->get_screen_width() - text_surface->w) / 2; x--) {
-		//game_window->fill_background();
+	rect.w = textSurface->w;
+	rect.h = textSurface->h;
+	for (x = gameDefaults->getScreenWidth(); x > (gameDefaults->getScreenWidth() - textSurface->w) / 2; x--) {
 		rect.x = x;
-		fill_rect(&rect,game_window->get_myRenderer(),game_defaults);
-		render_object(game_window->get_myRenderer());
-		game_window->publishTexture();
-		SDL_Delay(5);	
+		fillRect(&rect,gameWindow->getMyRenderer(),gameDefaults);
+		renderObject(gameWindow->getMyRenderer());
+		gameWindow->publishTexture();
+		SDL_Delay(1);	
 	}
-	render_object(game_window->get_myRenderer());
+	renderObject(gameWindow->getMyRenderer());
 }
 
-void RenderableText::fill_rect(SDL_Rect* rectangle, SDL_Renderer* renderer, std::shared_ptr<Defaults> gameDefaults) {
+void RenderableText::fillRect(SDL_Rect* rectangle, SDL_Renderer* renderer, std::shared_ptr<Defaults> gameDefaults) const {
 	//Fill rectangle with background colour
-	
-	SDL_SetRenderDrawColor(renderer, gameDefaults->get_intro_background_colour_red(), gameDefaults->get_intro_background_colour_blue(), gameDefaults->get_intro_background_colour_green(), 0xff);
+	SDL_SetRenderDrawColor(renderer, gameDefaults->getIntroBackgroundColourRed(), gameDefaults->getIntroBackgroundColourBlue(), gameDefaults->getIntroBackgroundColourGreen(), 0xff);
 	SDL_RenderFillRect(renderer, rectangle);
-	
 }
 
 RenderableText::~RenderableText() {
-	SDL_FreeSurface(text_surface);
+	SDL_FreeSurface(textSurface);
 	TTF_Quit();
 }

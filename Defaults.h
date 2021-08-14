@@ -7,78 +7,88 @@
 
 
 class Defaults
+	//stores default game and format settings 
 {
 private:
-	//std::string gamePicture{"Images/rose.jpg"};
-	std::vector<const char*> gamePicture{ "Images/rose.jpg","Images/butterfly.jpg","Images/mixture.jpg","Images/chain.jpg" };
-	int current_pic = 0;
-	const int SCREEN_WIDTH{ 600 };
-	const int SCREEN_HEIGHT{ 640 };
-	const int banner_height{ 40 };
-	const int tile_no_across{ 6 }; // this could be chosen at startup
-	const int tile_no_down{ 6 }; // this could be chosen at startup
+	//image, screen and grid defaults
+	const std::vector<const char*> gamePicture{ "Images/rose.jpg","Images/poppy.jpg","Images/mixture.jpg","Images/chain.jpg" };
+	int currentPic = 0;
+	const int screenWidth{ 1000 };
+	const int screenHeight{ 640 };
+	const int gridWidth{ 600 };
+	const int gridHeight{ 600 };
+	const int bannerHeight{ 20 };
+	const int leftMargin{ 20 };
+	const int tileNoAcross{ 2 }; // Future - this could be chosen at startup
+	const int tileNoDown{ 2 }; // Future - this could be chosen at startup
 
+	//font settings
+	const std::string gameFont{ "Font/Ravie.ttf" };
+	const std::string introFont{ "Font/SEGALOGOFONT400.ttf" }; 
+	const int h1Size{ 70 };
+	const int h2Size{ 40 };
+	const int h3Size{ 20 };
 
-	std::string game_font{ "Font/Gilsanub.ttf" }; //"Font/Gilsanub.ttf"
-	std::string intro_font{ "Font/SEGALOGOFONT400.ttf" };
-	const int h1_size{ 70 }; //70
-	const int h2_size{ 40 }; //40
-	const int h3_size{ 20 }; //20
-
-	//Intro background colour 331832
 	
-	const uint8_t intro_background_colour_red{ 0x33 };  
-	const uint8_t intro_background_colour_blue{ 0x18 };  
-	const uint8_t intro_background_colour_green{ 0x32 };  
+	//colour settings 
+	const uint8_t introBackgroundColourRed{ 0x3D };
+	const uint8_t introBackgroundColourBlue{ 0x3B };
+	const uint8_t introBackgroundColourGreen{ 0x30 };
 
-	//main text colour 9FC2CC
-	const uint8_t main_colour_red{ 0x9F };  
-	const uint8_t main_colour_blue{ 0xC2 };  
-	const uint8_t main_colour_green{ 0xCC };  
-
-	//secondary colour - not in use yet 694D75
-	const uint8_t sec_colour_red{ 0x69 };  
-	const uint8_t sec_colour_blue{ 0x4D };  
-	const uint8_t sec_colour_green{ 0x75 };  
-
-	//Text for intro pages
-
-	const std::string game_name{ " SLIDE PIX" };
-	const std::string start_game_text{ "To start press ENTER" };
-	const std::string choose_pic_text{ "Choose a picture" };
-	const std::string are_you_sure_text{ "Are you sure you want to quit? Y/N" };
-	const std::string congrats_text{ "CONGRATULATIONS" };
-	const std::string play_again_text{ "Play again? Y/N" };
+	const uint8_t mainColourRed{ 0xE9 };
+	const uint8_t mainColourBlue{ 0xED };
+	const uint8_t mainColourGreen{ 0xDE };
+	
+	const uint8_t secondaryColourRed{ 0xFF };  //E7
+	const uint8_t secondaryColourBlue{ 0x00 }; //47 
+	const uint8_t secondaryColourGreen{ 0x00 }; //E2
+	 
+	//default text
+	const std::string gameName{ " SLIDE PIX" };
+	const std::string startGameText{ "To start press ENTER" };
+	const std::string choosePicText{ "Choose a picture" };
+	const std::string areYouSureText{ "Are you sure you want to quit? Y/N" };
+	const std::string congratsText{ "WELL DONE!!" }; 
+	const std::string playAgainText{ "Play again? Y/N" };
 
 
 public:
 	Defaults();
-	int get_screen_width() const;
-	int get_screen_height() const;
-	//std::string get_game_picture() const;
-	int get_current_pic() const;
-	void update_current_pic(int new_choice);
-	const char* get_gamePicture(int x) const;
-	int get_no_across() const;
-	int get_no_down() const;
-	int get_banner_height() const;
-	std::string get_game_font() const;
-	std::string get_intro_font() const;
-	std::string get_game_name() const;
-	std::string get_game_intro() const;
-	std::string get_choose_pic_text() const;
-	std::string get_are_you_sure_text() const;
-	std::string get_congrats_text() const;
-	std::string get_play_again_text() const;
-	
+	void updateCurrentPic(const int newChoice);
 
-	uint8_t get_main_colour_red() const;
-	uint8_t get_main_colour_blue() const;
-	uint8_t get_main_colour_green() const;
+	//gets
+	const int getScreenWidth() const;
+	const int getScreenHeight() const;
+	const int getGridWidth() const;
+	const int getGridHeight() const;
+	const int getNoAcross() const;
+	const int getNoDown() const;
+	const int getBannerHeight() const;
+	const int getLeftMargin() const;
 
-	uint8_t get_intro_background_colour_red() const;
-	uint8_t get_intro_background_colour_blue() const;
-	uint8_t get_intro_background_colour_green() const;
+	int getCurrentPic() const;
+	const char* getGamePicture(int x) const;
+
+	const std::string getGameFont() const;
+	const std::string getIntroFont() const;
+
+	const std::string getGameName() const;
+	const std::string getGameIntro() const;
+	const std::string getChoosePicText() const;
+	const std::string getAreYouSureText() const;
+	const std::string getCongratsText() const;
+	const std::string getPlayAgainText() const;
+
+	const uint8_t getMainColourRed() const;
+	const uint8_t getMainColourBlue() const;
+	const uint8_t getMainColourGreen() const;
+	const uint8_t getsecondaryColourRed() const;
+	const uint8_t getsecondaryColourBlue() const;
+	const uint8_t getsecondaryColourGreen() const;
+
+	const uint8_t getIntroBackgroundColourRed() const;
+	const uint8_t getIntroBackgroundColourBlue() const;
+	const uint8_t getIntroBackgroundColourGreen() const;
 
 };
 

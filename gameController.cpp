@@ -1,21 +1,21 @@
 #include "gameController.h"
 #include <iostream>
+
 GameController::GameController() {
-	game_defaults = std::make_shared<Defaults>();
-	game_window = std::make_shared<GameWindow>(game_defaults);
-	//game_tiles = std::make_shared<TileManager>(game_defaults, game_window);
-	game_intro = std::make_shared<Intro>(game_defaults,game_window);
-	game_over = std::make_shared<gameOver>(game_defaults, game_window);
+	gameDefaults = std::make_shared<Defaults>();
+	gameWindow = std::make_shared<GameWindow>(gameDefaults);
+	gameTiles = std::make_shared<TileManager>(gameDefaults, gameWindow);
+	gameIntro = std::make_shared<Intro>(gameDefaults,gameWindow);
+	gameIsOver = std::make_shared<gameOver>(gameDefaults, gameWindow);
 	started = false;
 	running = false;
 }
 
-void GameController::update_running() {
+void GameController::updateRunning() {
 	running = !running;
 }
 void GameController::startGame() {
-	
-	game_intro->run_intro();
+	gameIntro->runIntro();
 	SDL_Event e;
 	while (!started) {
 		if (SDL_PollEvent(&e) != 0) {
@@ -23,16 +23,16 @@ void GameController::startGame() {
 				//User requests quit
 			{
 				if (quitGame()) {
-					update_started();
+					updateStarted();
 				}
 				else {
-					game_intro->run_intro();
+					gameIntro->runIntro();
 				}
 			}
 			else if (e.type == SDL_KEYDOWN) {
 
 				if (e.key.keysym.sym == SDLK_RETURN) {
-					update_started();
+					updateStarted();
 					choosePic();
 					
 				}
@@ -43,8 +43,8 @@ void GameController::startGame() {
 
 void GameController::choosePic() {
 	bool picked = false;
-	game_intro->display_pics();
-	game_intro->highlight_pic(game_defaults->get_current_pic());
+	gameIntro->displayPics();
+	gameIntro->highlightPic(gameDefaults->getCurrentPic());
 	SDL_Event e;
 	while (!picked) {
 		if (SDL_PollEvent(&e) != 0) {
@@ -55,21 +55,22 @@ void GameController::choosePic() {
 					picked = true;
 				}
 				else {
-					game_intro->display_pics();
-					game_intro->highlight_pic(game_defaults->get_current_pic());
+					gameIntro->displayPics();
+					gameIntro->highlightPic(gameDefaults->getCurrentPic());
 				}
 				
 			}
 			else if (e.type == SDL_KEYDOWN) {
 
 				if (e.key.keysym.sym == SDLK_LEFT) {
-					game_intro->update_selection(Direction::LEFT);
+					gameIntro->updateSelection(Direction::LEFT);
 
 				} else if (e.key.keysym.sym == SDLK_RIGHT) {
-					game_intro->update_selection(Direction::RIGHT);
+					gameIntro->updateSelection(Direction::RIGHT);
 				}
 				else if (e.key.keysym.sym == SDLK_RETURN) {
 					picked = true;
+					gameWindow->createTileTexture();
 					runGame();
 				}
 			}
@@ -78,17 +79,15 @@ void GameController::choosePic() {
 }
 
 void GameController::runGame() {
+	gameWindow->fillBackground();
 	running = true;
-	game_tiles = std::make_shared<TileManager>(game_defaults, game_window);
-
-	//game_tiles->draw_tiles();
-
-	game_tiles->create_tile_list();
-	game_tiles->draw_tiles();
+	//gameTiles = std::make_shared<TileManager>(gameDefaults, gameWindow);
+	gameTiles->createTileList();
+	gameTiles->drawTiles();
 	SDL_Delay(2000);
-	game_tiles->shuffle_tile_list();
-	game_tiles->draw_tiles();
-	//SDL_Delay(2000);
+	gameTiles->shuffleTileList();
+	gameTiles->drawTiles();
+
 	SDL_Event e;
 	while (running) {
 		if (SDL_PollEvent(&e) != 0 && e.key.repeat == 0) {
@@ -101,8 +100,8 @@ void GameController::runGame() {
 
 bool GameController::quitGame() {
 	
-	game_over->display_are_you_sure();
-	if (game_over->handle_are_you_sure()) {
+	gameIsOver->displayAreYouSure();
+	if (gameIsOver->handleAreYouSure()) {
 		running = !running;
 		return true;
 	}
@@ -121,7 +120,7 @@ void GameController::onEvent(SDL_Event &e) {
 			//User requests quit
 		{
 			if (!quitGame()) {
-				game_tiles->draw_tiles();
+				gameTiles->drawTiles();
 			}
 			
 		}
@@ -132,34 +131,33 @@ void GameController::onEvent(SDL_Event &e) {
 			switch (e.key.keysym.sym)
 			{
 			case SDLK_RETURN:
-				update_running();
+				updateRunning();
 
 			case SDLK_UP:
 
-				game_tiles->move_tile(Direction::UP);
-				if (game_tiles->check_solved()) {
+				gameTiles->moveTile(Direction::UP);
+				if (gameTiles->checkSolved()) {
 					gameWon();
 				}
 				break;
 
 			case SDLK_DOWN:
-				game_tiles->move_tile(Direction::DOWN);
-				//gameWon(); TEST
-				if (game_tiles->check_solved()) {
+				gameTiles->moveTile(Direction::DOWN);
+				if (gameTiles->checkSolved()) {
 				gameWon();
 				}
 				break;
 
 			case SDLK_LEFT:
-				game_tiles->move_tile(Direction::LEFT);
-				if (game_tiles->check_solved()) {
+				gameTiles->moveTile(Direction::LEFT);
+				if (gameTiles->checkSolved()) {
 					gameWon();
 				}
 				break;
 
 			case SDLK_RIGHT:
-				game_tiles->move_tile(Direction::RIGHT);
-				if (game_tiles->check_solved()) {
+				gameTiles->moveTile(Direction::RIGHT);
+				if (gameTiles->checkSolved()) {
 					gameWon();
 				}
 				break;
@@ -169,19 +167,18 @@ void GameController::onEvent(SDL_Event &e) {
 		
 
 }
-void GameController::update_started() {
+void GameController::updateStarted() {
 	started = !started;
 }
 
 void GameController::gameWon() {
-	std::cout << "GAME WON!!!" << std::endl;
-	SDL_Delay(1000);
-	game_over->congratulations();
-	if (game_over->handle_play_again()) {
+	SDL_Delay(500);
+	gameIsOver->congratulations();
+	if (gameIsOver->handlePlayAgain()) {
 		choosePic();
 	}
 	else {
-		update_running();
+		updateRunning();
 	}	
 }
 
