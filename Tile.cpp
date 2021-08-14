@@ -1,55 +1,55 @@
 #include "Tile.h"
-Tile::Tile(SDL_Rect* source_rect, SDL_Rect* dest_rect, int pos):
-	target_position{ pos }, current_position{ pos }, source_rect{source_rect}, destination_rect{ dest_rect } {
+Tile::Tile(SDL_Rect* sourceRect, SDL_Rect* dest_rect, int pos):
+	targetPosition{ pos }, currentPosition{ pos }, sourceRect{sourceRect}, destinationRect{ dest_rect } {
 	blank = false;
 }
 	
-void Tile::get_tile(SDL_Renderer* gameRenderer, SDL_Texture* imagetexture) {
+void Tile::getTile(SDL_Renderer* gameRenderer, SDL_Texture* imagetexture) const {
 	//Copy tile image to current location on window 
-	SDL_RenderCopy(gameRenderer,imagetexture,source_rect,destination_rect);
+	SDL_RenderCopy(gameRenderer,imagetexture,sourceRect,destinationRect);
 }
 
-int Tile::get_target_pos() const {
-	return target_position;
+int Tile::getTargetPos() const {
+	return targetPosition;
 }
 
-SDL_Rect* Tile::get_source_rect() const {
-	return source_rect;
+SDL_Rect* Tile::getSourceRect() const {
+	return sourceRect;
 }
-SDL_Rect* Tile::get_dest_rect() const{
-	return destination_rect;
+SDL_Rect* Tile::getDestRect() const{
+	return destinationRect;
 }
 
-void Tile::update_blank() {
+void Tile::updateBlank() {
 	blank = !blank;
 }
 
-bool Tile::get_blank() {
+bool Tile::getBlank() const {
 	return blank;
 }
 
-void Tile::update_dest_rect(int x, int y, int w, int h) {
-	destination_rect->w = w;
-	destination_rect->h = h;
-	destination_rect->x = x;
-	destination_rect->y = y;
+void Tile::updateDestRect(int x, int y, int w, int h) {
+	destinationRect->w = w;
+	destinationRect->h = h;
+	destinationRect->x = x;
+	destinationRect->y = y;
 }
 
-void Tile::update_source_rectangle(SDL_Rect* newRect) {
-	source_rect->x = newRect->x;
-	source_rect->y = newRect->y;
-	source_rect->w = newRect->w;
-	source_rect->h = newRect->h;
+void Tile::updateSourceRect(SDL_Rect* newRect) {
+	sourceRect->x = newRect->x;
+	sourceRect->y = newRect->y;
+	sourceRect->w = newRect->w;
+	sourceRect->h = newRect->h;
 }
 
-void Tile::update_target_pos(int newpos) {
-	target_position = newpos;
+void Tile::updateTargetPos(int newpos) {
+	targetPosition = newpos;
 }
 
-void Tile::update_current_pos(int newpos) {
-	current_position = newpos;
+void Tile::updateCurrentPos(int newpos) {
+	currentPosition = newpos;
 }
 
-int Tile::get_current_pos() const {
-	return current_position;
+int Tile::getCurrentPos() const {
+	return currentPosition;
 }

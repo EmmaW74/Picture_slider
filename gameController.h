@@ -4,27 +4,28 @@
 #include "TileManager.h"
 #include "Intro.h"
 #include "gameOver.h"
+#include "Defaults.h"
 #include <memory>
 
 class GameController
+	//controls the flow of the game
 {
 private:
-	std::shared_ptr<Intro> game_intro;
-	std::shared_ptr<GameWindow> game_window;
-	std::shared_ptr<Defaults> game_defaults;
-	std::shared_ptr<TileManager> game_tiles;
-	std::shared_ptr<gameOver> game_over;
+	std::shared_ptr<Intro> gameIntro;
+	std::shared_ptr<GameWindow> gameWindow;
+	std::shared_ptr<Defaults> gameDefaults;
+	std::shared_ptr<TileManager> gameTiles;
+	std::shared_ptr<gameOver> gameIsOver;
 	bool running;
 	bool started;
-	//int current_pic_selection;
 
 public:
 	GameController();
 	void startGame();
 	void choosePic();
 	void runGame();
-	void update_running();
-	void update_started();
+	void updateRunning();
+	void updateStarted();
 	void gameWon();
 	bool quitGame();
 	void onEvent(SDL_Event &e);

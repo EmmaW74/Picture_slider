@@ -16,28 +16,29 @@ enum class Direction {
 };
 
 class TileManager
+	//Creates and shuffles tile list and manages movement of tiles
 {
 private:
-	std::shared_ptr<Defaults> game_defaults;
-	std::shared_ptr<GameWindow> game_window;
-	std::deque<Tile> tile_list; //deque of tiles
-	std::deque<std::pair<int, SDL_Rect*>> start_position_list;
-	SDL_Texture* tile_texture;
-	int blank_position; //current blank tile position
+	std::shared_ptr<Defaults> gameDefaults;
+	std::shared_ptr<GameWindow> gameWindow;
+	std::deque<Tile> tileList; 
+	SDL_Texture* tileTexture;
+	int blankTilePosition; 
+
 
 public:
-	TileManager(std::shared_ptr<Defaults> game_defaults, std::shared_ptr<GameWindow> game_window);
-	void create_tile_texture();
-	void set_rect(SDL_Rect* rect, int pos);
-	void create_tile_list();
-	void shuffle_tile_list();
-	void move_tile(Direction move);
-	void swap_tiles(Tile* blank, Tile* pic);
-
-	void draw_tiles();
-	void update_blank_pos();
-	bool check_solved();
-
+	TileManager(std::shared_ptr<Defaults> gameDefaults, std::shared_ptr<GameWindow> gameWindow);
+	void createTileTexture();
+	void setRect(SDL_Rect* rect, int pos);
+	void createTileList();
+	void shuffleTileList();
+	void moveTile(Direction move);
+	void swapTiles(Tile* blank, Tile* pic);
+	void drawTiles();
+	void updateBlankPos();
+	bool checkSolved();
+	int countInversions();
+	bool checkSolvable(int gridSize);
 
 };
 

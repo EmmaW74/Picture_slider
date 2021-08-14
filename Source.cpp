@@ -10,9 +10,14 @@ int main(int argc, char* args[]) {
 
 //TO ADD
 
-//Bug on exit with X on congrats window (if choose N it doesn't go back to congrats window)
-//upload own pic
-//countdown option
+//Check for const throughout
+//Standardise the naming convention
+
+//Congrats - make background flash and realign text
+
+//Bug - Can't close program if y/n text waiting - Need to fix on Play again and deal with others as a new window.
+
+//Upload image option
 //Timer and top scores
 //Enter name if top score
 //default green and blue possibly wrong way round (intro background)
