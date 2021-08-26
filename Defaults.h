@@ -12,15 +12,15 @@ class Defaults
 private:
 	//image, screen and grid defaults
 	const std::vector<const char*> gamePicture{ "Images/rose.jpg","Images/poppy.jpg","Images/mixture.jpg","Images/chain.jpg" };
-	int currentPic = 0;
+	int currentPic = 0; 
 	const int screenWidth{ 1000 };
 	const int screenHeight{ 640 };
 	const int gridWidth{ 600 };
 	const int gridHeight{ 600 };
 	const int bannerHeight{ 20 };
 	const int leftMargin{ 20 };
-	const int tileNoAcross{ 2 }; // Future - this could be chosen at startup
-	const int tileNoDown{ 2 }; // Future - this could be chosen at startup
+	const int tileNoAcross{ 5 }; // Future - this could be chosen at startup
+	const int tileNoDown{ 5 }; // Future - this could be chosen at startup
 
 	//font settings
 	const std::string gameFont{ "Font/Ravie.ttf" };

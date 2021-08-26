@@ -19,12 +19,13 @@ private:
 public:
 
 	GameWindow(std::shared_ptr<Defaults> gameDefaults);
-	void publishTexture();
+	void publishTexture() const;
 	void createTileTexture();
 	SDL_Renderer* getMyRenderer() const;
 	void fillBackground();
-	void drawRectangle(SDL_Rect rect, int borderSize, std::shared_ptr<Defaults>gameDefaults);
+	void drawRectangle(SDL_Rect rect, const int borderSize, std::shared_ptr<Defaults>gameDefaults);
 	void drawReferencePic();
+	SDL_Texture* getMyTexture();
 	~GameWindow();
 };
 

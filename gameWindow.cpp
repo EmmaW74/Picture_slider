@@ -44,7 +44,7 @@ SDL_Renderer* GameWindow::getMyRenderer() const {
 }
 
 void GameWindow::createTileTexture() {
-	//loads image and returns a texture of the image
+	//loads image and creates a texture of the image
 	SDL_Surface* tempSurface = IMG_Load(gameDefaults->getGamePicture(gameDefaults->getCurrentPic()));
 	if (tempSurface == NULL)
 	{
@@ -68,8 +68,12 @@ void GameWindow::createTileTexture() {
 }
 
 
-void GameWindow::publishTexture() {
+void GameWindow::publishTexture() const {
 	SDL_RenderPresent(myRenderer);
+}
+
+SDL_Texture* GameWindow::getMyTexture() {
+	return myTexture;
 }
 
 void GameWindow::fillBackground() {
@@ -80,7 +84,7 @@ void GameWindow::fillBackground() {
 	delete temp;
 }
 
-void GameWindow::drawRectangle(SDL_Rect rect, int borderSize, std::shared_ptr<Defaults>gameDefaults) {
+void GameWindow::drawRectangle(SDL_Rect rect, const int borderSize, std::shared_ptr<Defaults>gameDefaults) {
 	
 	int widthAdj = 0;
 	int posAdj = 0;

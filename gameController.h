@@ -28,6 +28,7 @@ public:
 	void updateStarted();
 	void gameWon();
 	bool quitGame();
+	void resetGame();
 	void onEvent(SDL_Event &e);
 	~GameController();
 

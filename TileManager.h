@@ -39,6 +39,7 @@ public:
 	bool checkSolved();
 	int countInversions();
 	bool checkSolvable(int gridSize);
+	void clearTileList();
 
 };
 

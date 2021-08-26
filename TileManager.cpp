@@ -9,7 +9,7 @@
 
 TileManager::TileManager(std::shared_ptr<Defaults> gameDefaults, std::shared_ptr<GameWindow> gameWindow):
 	gameDefaults{ gameDefaults }, gameWindow{ gameWindow }{
-	createTileTexture();
+	//createTileTexture();
 	
 }
 void TileManager::createTileTexture() {
@@ -56,6 +56,11 @@ void TileManager::createTileList() {
 	tileList.at(noOfTiles - 1).updateBlank();
 
 	
+}
+
+
+void TileManager::clearTileList() {
+	tileList.clear();
 }
 
 void TileManager::swapTiles(Tile* blank, Tile* pic) {
@@ -200,6 +205,7 @@ int TileManager::countInversions() {
 
 void TileManager::drawTiles() {
 	//Draws source rect in dest rect for each tile not flagged as blank. For blank tile it draws a blank square.
+	
 	auto it = tileList.begin();
 	while (it != tileList.end()) {
 		if (it->getBlank()) {
@@ -208,7 +214,7 @@ void TileManager::drawTiles() {
 			
 		}
 		else {
-			SDL_RenderCopy(gameWindow->getMyRenderer(), tileTexture, it->getSourceRect(), it->getDestRect());
+			SDL_RenderCopy(gameWindow->getMyRenderer(), gameWindow->getMyTexture(), it->getSourceRect(), it->getDestRect());
 		}
 		it++;
 	}
