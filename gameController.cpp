@@ -120,6 +120,7 @@ void GameController::onEvent(SDL_Event &e) {
 			//User requests quit
 		{
 			if (!quitGame()) {
+				gameWindow->fillBackground(); //TEST
 				gameTiles->drawTiles();
 			}
 			
@@ -175,11 +176,16 @@ void GameController::gameWon() {
 	SDL_Delay(500);
 	gameIsOver->congratulations();
 	if (gameIsOver->handlePlayAgain()) {
+		resetGame();
 		choosePic();
 	}
 	else {
 		updateRunning();
 	}	
+}
+
+void GameController::resetGame() {
+	gameTiles->clearTileList();
 }
 
 GameController::~GameController() {
